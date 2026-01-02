@@ -50,7 +50,7 @@ import {
   Gamepad2
 } from 'lucide-react';
 
-// ... (Mock Data remains the same)
+// ... (Mock Data remains the same - Teacher, Courses, Enquiries, Categories)
 const INITIAL_TEACHERS = [
   { id: 101, name: "R.K. Verma", email: "rk.verma@example.com", phone: "+91 9876543210", subject: "Mathematics", status: "Active", joinDate: "2023-01-15", bio: "20+ years of experience in coaching for IIT JEE. Formerly senior faculty at Kota." },
   { id: 102, name: "Priya Singh", email: "priya.s@example.com", phone: "+91 9812345678", subject: "English", status: "Active", joinDate: "2023-02-20", bio: "Certified IELTS trainer and Literature major. I make grammar fun and easy." },
@@ -398,12 +398,12 @@ const Footer = () => (
           <ul className="space-y-2 text-sm">
             <li className="flex items-center gap-2"><Mail className="w-4 h-4" /> support@tutorconnect.in</li>
             <li className="flex items-center gap-2"><Phone className="w-4 h-4" /> +91 8000 9000 10</li>
-            <li className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Koramangala, Bangalore</li>
+            <li className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Chennai, Tamilnadu</li>
           </ul>
         </div>
       </div>
       <div className="border-t border-gray-800 pt-8 text-center text-sm text-gray-500">
-        &copy; 2024 TutorConnect India. All rights reserved.
+        &copy; 2026 TutorConnect India. All rights reserved. Powered by i2tym
       </div>
     </div>
   </footer>
@@ -1670,8 +1670,51 @@ export default function App() {
     return null;
   };
 
+  const inlineCss = `
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-in.fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    
+    @keyframes slideInFromBottom {
+      from { transform: translateY(10px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .animate-in.slide-in-from-bottom-2 {
+      animation: slideInFromBottom 0.5s ease-out forwards;
+    }
+    
+    @keyframes slideInFromRight {
+      from { transform: translateX(20px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .animate-in.slide-in-from-right-4 {
+      animation: slideInFromRight 0.3s ease-out forwards;
+    }
+    
+    @keyframes zoomIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .animate-in.zoom-in {
+      animation: zoomIn 0.2s ease-out forwards;
+    }
+  `;
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
+      <style>{inlineCss}</style>
       
       {/* Navigation - Hidden on Mobile ONLY if user is a Learner (who has bottom nav) */}
       <nav className={`bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-40 transition-all duration-300 ${activeRole === 'learner' ? 'hidden md:block' : 'block'}`}>
