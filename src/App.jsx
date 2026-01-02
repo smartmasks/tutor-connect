@@ -1,4 +1,4 @@
-// ... (imports)
+// ... (imports remain the same)
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { 
   Search, 
@@ -50,7 +50,7 @@ import {
   Gamepad2
 } from 'lucide-react';
 
-// ... (Mock Data remains the same - Teacher, Courses, Enquiries, Categories)
+// ... (Mock Data remains the same)
 const INITIAL_TEACHERS = [
   { id: 101, name: "R.K. Verma", email: "rk.verma@example.com", phone: "+91 9876543210", subject: "Mathematics", status: "Active", joinDate: "2023-01-15", bio: "20+ years of experience in coaching for IIT JEE. Formerly senior faculty at Kota." },
   { id: 102, name: "Priya Singh", email: "priya.s@example.com", phone: "+91 9812345678", subject: "English", status: "Active", joinDate: "2023-02-20", bio: "Certified IELTS trainer and Literature major. I make grammar fun and easy." },
@@ -304,7 +304,12 @@ const CATEGORIES = [
   { name: "IT & Coding", icon: <Code className="w-5 h-5" /> },
   { name: "Music & Dance", icon: <Music className="w-5 h-5" /> },
   { name: "Arts", icon: <Palette className="w-5 h-5" /> },
-  { name: "Sports & Games", icon: <Gamepad2 className="w-5 h-5" /> }
+  { name: "Sports & Games", icon: <Gamepad2 className="w-5 h-5" /> },
+  { name: "Fitness & Yoga", icon: <Dumbbell className="w-5 h-5" /> }, // New
+  { name: "Robotics & AI", icon: <Cpu className="w-5 h-5" /> }, // New
+  { name: "Lifestyle", icon: <Compass className="w-5 h-5" /> }, // New
+  { name: "Wellness", icon: <Heart className="w-5 h-5" /> }, // New
+  { name: "Global Studies", icon: <Globe className="w-5 h-5" /> } // New
 ];
 
 // --- Components ---
