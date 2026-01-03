@@ -50,7 +50,7 @@ import {
   Gamepad2
 } from 'lucide-react';
 
-// ... (Mock Data remains the same - Teacher, Courses, Enquiries, Categories)
+// ... (Mock Data remains the same)
 const INITIAL_TEACHERS = [
   { id: 101, name: "R.K. Verma", email: "rk.verma@example.com", phone: "+91 9876543210", subject: "Mathematics", status: "Active", joinDate: "2023-01-15", bio: "20+ years of experience in coaching for IIT JEE. Formerly senior faculty at Kota." },
   { id: 102, name: "Priya Singh", email: "priya.s@example.com", phone: "+91 9812345678", subject: "English", status: "Active", joinDate: "2023-02-20", bio: "Certified IELTS trainer and Literature major. I make grammar fun and easy." },
@@ -305,11 +305,11 @@ const CATEGORIES = [
   { name: "Music & Dance", icon: <Music className="w-5 h-5" /> },
   { name: "Arts", icon: <Palette className="w-5 h-5" /> },
   { name: "Sports & Games", icon: <Gamepad2 className="w-5 h-5" /> },
-  { name: "Fitness & Yoga", icon: <Dumbbell className="w-5 h-5" /> }, // New
-  { name: "Robotics & AI", icon: <Cpu className="w-5 h-5" /> }, // New
-  { name: "Lifestyle", icon: <Compass className="w-5 h-5" /> }, // New
-  { name: "Wellness", icon: <Heart className="w-5 h-5" /> }, // New
-  { name: "Global Studies", icon: <Globe className="w-5 h-5" /> } // New
+  { name: "Fitness & Yoga", icon: <Dumbbell className="w-5 h-5" /> }, 
+  { name: "Robotics & AI", icon: <Cpu className="w-5 h-5" /> }, 
+  { name: "Lifestyle", icon: <Compass className="w-5 h-5" /> }, 
+  { name: "Wellness", icon: <Heart className="w-5 h-5" /> }, 
+  { name: "Global Studies", icon: <Globe className="w-5 h-5" /> } 
 ];
 
 // --- Components ---
@@ -398,12 +398,12 @@ const Footer = () => (
           <ul className="space-y-2 text-sm">
             <li className="flex items-center gap-2"><Mail className="w-4 h-4" /> support@tutorconnect.in</li>
             <li className="flex items-center gap-2"><Phone className="w-4 h-4" /> +91 8000 9000 10</li>
-            <li className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Chennai, Tamilnadu</li>
+            <li className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Koramangala, Bangalore</li>
           </ul>
         </div>
       </div>
       <div className="border-t border-gray-800 pt-8 text-center text-sm text-gray-500">
-        &copy; 2026 TutorConnect India. All rights reserved. Powered by i2tym
+        &copy; 2024 TutorConnect India. All rights reserved.
       </div>
     </div>
   </footer>
@@ -827,20 +827,30 @@ export default function App() {
 
     const CourseCard = ({ course, isMobileSnap = false }) => (
       <div className={`bg-white rounded-[1.5rem] border border-gray-100 overflow-hidden hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] transition-all duration-300 group flex flex-col h-full ${isMobileSnap ? 'min-w-[280px] md:min-w-0 snap-center' : ''}`}>
-        <div className="h-40 md:h-48 relative overflow-hidden cursor-pointer" onClick={() => navigateToCourse(course)}>
-          <div className={`absolute inset-0 bg-gradient-to-br ${getGradient(course.category)} opacity-90 group-hover:scale-105 transition-transform duration-700`} />
-          <div className="absolute top-4 left-4 flex gap-2">
+        
+        {/* Header Section */}
+        <div className="h-40 md:h-48 relative cursor-pointer" onClick={() => navigateToCourse(course)}>
+          
+          {/* Background with Zoom Effect (Contained) */}
+          <div className="absolute inset-0 overflow-hidden">
+             <div className={`absolute inset-0 bg-gradient-to-br ${getGradient(course.category)} opacity-90 group-hover:scale-105 transition-transform duration-700`} />
+          </div>
+
+          {/* Badges */}
+          <div className="absolute top-4 left-4 flex gap-2 z-10">
               <div className="bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
                 <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
                 <span className="text-xs font-bold text-gray-900">{course.rating || '4.8'}</span>
                 <span className="text-[10px] text-gray-500">({course.reviews || '20'})</span>
               </div>
           </div>
-          <div className="absolute top-4 right-4">
+          <div className="absolute top-4 right-4 z-10">
               <ModeBadge mode={course.mode} />
           </div>
-          <div className="absolute -bottom-6 left-6">
-              <div className="w-12 h-12 rounded-full border-4 border-white bg-gray-200 flex items-center justify-center text-gray-500 font-bold shadow-md relative z-10">
+
+          {/* Avatar (Overlapping) */}
+          <div className="absolute -bottom-6 left-6 z-20">
+              <div className="w-12 h-12 rounded-full border-4 border-white bg-gray-200 flex items-center justify-center text-gray-500 font-bold shadow-md">
                 {course.teacherName.charAt(0)}
               </div>
           </div>
@@ -1276,13 +1286,25 @@ export default function App() {
 
     return (
       <div className="space-y-6 pb-20">
+        
+        {/* --- Added Mobile Header for Teacher --- */}
+        <div className="md:hidden pt-2 mb-2 flex justify-between items-center">
+             <div>
+                <p className="text-xs text-gray-500 font-medium">Welcome,</p>
+                <h2 className="text-xl font-bold text-gray-900">{currentUser?.name || "Teacher"} 👋</h2>
+             </div>
+             <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold border-2 border-white shadow-sm">
+                {currentUser?.name ? currentUser.name.charAt(0) : "T"}
+             </div>
+        </div>
+
         <TeacherTabs />
 
         {/* --- TEACHER DASHBOARD --- */}
         {teacherView === 'dashboard' && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
             {/* Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                 <div className="flex items-center justify-between mb-4">
                   <div className="p-3 bg-blue-50 text-blue-600 rounded-lg"><BookOpen className="w-6 h-6" /></div>
@@ -1297,7 +1319,7 @@ export default function App() {
                 <p className="text-gray-500 text-sm font-medium">Active Leads</p>
                 <p className="text-3xl font-bold text-emerald-600">{myLeads.length}</p>
               </div>
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 col-span-2 md:col-span-1">
                 <div className="flex items-center justify-between mb-4">
                   <div className="p-3 bg-amber-50 text-amber-600 rounded-lg"><Clock className="w-6 h-6" /></div>
                 </div>
@@ -1482,6 +1504,18 @@ export default function App() {
     
     return (
       <div className="space-y-6 pb-20">
+        
+        {/* --- Added Mobile Header for Admin --- */}
+        <div className="md:hidden pt-2 mb-2 flex justify-between items-center">
+             <div>
+                <p className="text-xs text-gray-500 font-medium">Welcome,</p>
+                <h2 className="text-xl font-bold text-gray-900">Admin 👋</h2>
+             </div>
+             <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-bold border-2 border-white shadow-sm">
+                A
+             </div>
+        </div>
+
         <AdminTabs />
 
         {/* --- DASHBOARD VIEW --- */}
@@ -1508,6 +1542,30 @@ export default function App() {
                   <div>
                     <p className="text-gray-500 text-[10px] md:text-xs font-bold uppercase tracking-wider">Total Courses</p>
                     <p className="text-xl md:text-2xl font-bold text-gray-900">{courses.length}</p>
+                  </div>
+                </div>
+              </div>
+
+               <div className="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-gray-100">
+                 <div className="flex flex-col justify-between gap-2 h-full">
+                  <div className="p-2 md:p-3 bg-emerald-50 text-emerald-600 rounded-lg w-fit">
+                    <MessageSquare className="w-4 h-4 md:w-5 md:h-5" />
+                  </div>
+                  <div>
+                    <p className="text-gray-500 text-[10px] md:text-xs font-bold uppercase tracking-wider">Total Leads</p>
+                    <p className="text-xl md:text-2xl font-bold text-gray-900">{enquiries.length}</p>
+                  </div>
+                </div>
+              </div>
+
+               <div className="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-gray-100">
+                 <div className="flex flex-col justify-between gap-2 h-full">
+                  <div className="p-2 md:p-3 bg-amber-50 text-amber-600 rounded-lg w-fit">
+                    <Shield className="w-4 h-4 md:w-5 md:h-5" />
+                  </div>
+                  <div>
+                    <p className="text-gray-500 text-[10px] md:text-xs font-bold uppercase tracking-wider">Pending Approval</p>
+                    <p className="text-xl md:text-2xl font-bold text-amber-500">{pendingCourses.length}</p>
                   </div>
                 </div>
               </div>
@@ -1552,6 +1610,136 @@ export default function App() {
                   <p>All caught up! No courses pending approval.</p>
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* --- TEACHERS VIEW --- */}
+        {adminView === 'teachers' && (
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+               <h3 className="font-bold text-lg text-gray-800">Teacher Management</h3>
+            </div>
+            <div className="overflow-x-auto">
+               <table className="w-full text-left text-sm">
+                 <thead className="bg-gray-50 text-gray-500 font-medium">
+                   <tr>
+                     <th className="px-6 py-4">Name</th>
+                     <th className="px-6 py-4">Contact</th>
+                     <th className="px-6 py-4">Subject</th>
+                     <th className="px-6 py-4">Status</th>
+                     <th className="px-6 py-4 text-right">Actions</th>
+                   </tr>
+                 </thead>
+                 <tbody className="divide-y divide-gray-100">
+                   {teachers.map(t => (
+                     <tr key={t.id} className="hover:bg-gray-50/50">
+                       <td className="px-6 py-4 font-medium text-gray-900">
+                         {t.name}
+                         <div className="text-xs text-gray-400 font-normal">Joined: {t.joinDate}</div>
+                       </td>
+                       <td className="px-6 py-4 text-gray-600">
+                         <div className="flex items-center gap-2"><Mail className="w-3 h-3" /> {t.email}</div>
+                         <div className="flex items-center gap-2 mt-1"><Phone className="w-3 h-3" /> {t.phone}</div>
+                       </td>
+                       <td className="px-6 py-4 text-gray-600">{t.subject}</td>
+                       <td className="px-6 py-4"><StatusBadge status={t.status} /></td>
+                       <td className="px-6 py-4 text-right">
+                         <div className="flex items-center justify-end gap-2">
+                           <button 
+                             onClick={() => handleToggleTeacherStatus(t.id)} 
+                             className={`p-2 rounded-lg transition-colors ${t.status === 'Active' ? 'text-emerald-600 hover:bg-emerald-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                             title={t.status === 'Active' ? "Deactivate" : "Activate"}
+                           >
+                             {t.status === 'Active' ? <ToggleRight className="w-5 h-5" /> : <ToggleLeft className="w-5 h-5" />}
+                           </button>
+                           <button onClick={() => handleEditTeacher(t.id)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
+                             <Edit className="w-4 h-4" />
+                           </button>
+                         </div>
+                       </td>
+                     </tr>
+                   ))}
+                 </tbody>
+               </table>
+            </div>
+          </div>
+        )}
+
+        {/* --- ALL COURSES VIEW --- */}
+        {adminView === 'courses' && (
+           <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+               <h3 className="font-bold text-lg text-gray-800">Course Registry</h3>
+            </div>
+            <div className="overflow-x-auto">
+               <table className="w-full text-left text-sm">
+                 <thead className="bg-gray-50 text-gray-500 font-medium">
+                   <tr>
+                     <th className="px-6 py-4">Title</th>
+                     <th className="px-6 py-4">Instructor</th>
+                     <th className="px-6 py-4">Category</th>
+                     <th className="px-6 py-4">Status</th>
+                     <th className="px-6 py-4 text-right">Actions</th>
+                   </tr>
+                 </thead>
+                 <tbody className="divide-y divide-gray-100">
+                   {courses.map(c => (
+                     <tr key={c.id} className="hover:bg-gray-50/50">
+                       <td className="px-6 py-4 font-medium text-gray-900 max-w-xs truncate">{c.title}</td>
+                       <td className="px-6 py-4 text-gray-600">{c.teacherName}</td>
+                       <td className="px-6 py-4 text-gray-600">
+                          <span className="bg-gray-100 text-xs px-2 py-1 rounded">{c.category}</span>
+                       </td>
+                       <td className="px-6 py-4"><StatusBadge status={c.status} /></td>
+                       <td className="px-6 py-4 text-right">
+                         <div className="flex items-center justify-end gap-2">
+                           <button className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                             <Edit className="w-4 h-4" />
+                           </button>
+                           <button className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg">
+                             <Trash2 className="w-4 h-4" />
+                           </button>
+                         </div>
+                       </td>
+                     </tr>
+                   ))}
+                 </tbody>
+               </table>
+            </div>
+          </div>
+        )}
+
+        {/* --- ENQUIRIES VIEW --- */}
+        {adminView === 'enquiries' && (
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+               <h3 className="font-bold text-lg text-gray-800">Master Enquiry Log</h3>
+            </div>
+             <div className="overflow-x-auto">
+               <table className="w-full text-left text-sm">
+                 <thead className="bg-gray-50 text-gray-500 font-medium">
+                   <tr>
+                     <th className="px-6 py-4">Date</th>
+                     <th className="px-6 py-4">Student</th>
+                     <th className="px-6 py-4">Course Interest</th>
+                     <th className="px-6 py-4">Message</th>
+                   </tr>
+                 </thead>
+                 <tbody className="divide-y divide-gray-100">
+                   {enquiries.map(e => (
+                     <tr key={e.id} className="hover:bg-gray-50/50">
+                       <td className="px-6 py-4 text-gray-500 whitespace-nowrap">{e.date}</td>
+                       <td className="px-6 py-4 font-medium text-gray-900">
+                         {e.studentName}
+                         <div className="text-xs text-gray-400 font-normal">{e.email}</div>
+                       </td>
+                       <td className="px-6 py-4 text-blue-600 font-medium">{e.courseTitle}</td>
+                       <td className="px-6 py-4 text-gray-600 italic max-w-md truncate">"{e.message}"</td>
+                     </tr>
+                   ))}
+                 </tbody>
+               </table>
             </div>
           </div>
         )}
@@ -1819,7 +2007,7 @@ export default function App() {
       </nav>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto md:px-8 py-6 md:py-8">
+      <main className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-8">
         {activeRole === 'learner' && <LearnerView />}
         {activeRole === 'login' && <LoginView />}
         {activeRole === 'teacher' && <TeacherView />}
