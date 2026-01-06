@@ -584,7 +584,7 @@ const Footer = () => (
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <img src="public/tutorz_logo.png" alt="Brand Logo" className="h-10 rounded-md object-contain" />
+            <img src="tutorz_logo.png" alt="Brand Logo" className="h-10 rounded-md object-contain" />
           </div>
           <p className="text-sm text-gray-400">Connecting ambitious learners with expert tutors across India. Online or Offline, we have you covered.</p>
         </div>
@@ -1548,7 +1548,7 @@ export default function App() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => { setActiveRole('learner'); setLearnerView('home'); setIsLoggedIn(false); }}>
               {/* Replaced Text Logo with Image Logo Placeholder */}
-              <img src="public/tutorz_logo_bg.png" alt="Brand Logo" className="h-10 rounded-md object-contain" />
+              <img src="tutorz_logo_bg.png" alt="Brand Logo" className="h-10 rounded-md object-contain" />
             </div>
 
             {/* Desktop Nav */}
