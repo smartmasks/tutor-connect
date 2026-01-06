@@ -60,7 +60,7 @@ import {
   Zap 
 } from 'lucide-react';
 
-// ... (Mock Data)
+// ... (Mock Data remains the same)
 const INITIAL_TEACHERS = [
   { id: 101, name: "R.K. Verma", email: "rk.verma@example.com", phone: "+91 9876543210", subject: "Mathematics", status: "Active", joinDate: "2023-01-15", isVerified: true, bio: "20+ years of experience in coaching for IIT JEE. Formerly senior faculty at Kota." },
   { id: 102, name: "Priya Singh", email: "priya.s@example.com", phone: "+91 9812345678", subject: "English", status: "Active", joinDate: "2023-02-20", isVerified: true, bio: "Certified IELTS trainer and Literature major. I make grammar fun and easy." },
@@ -590,9 +590,9 @@ const Footer = () => (
         </div>
         <div><h4 className="text-white font-bold mb-4">Learn</h4><ul className="space-y-2 text-sm"><li><a href="#" className="hover:text-orange-500 transition-colors">School Tuitions</a></li><li><a href="#" className="hover:text-orange-500 transition-colors">Competitive Exams</a></li><li><a href="#" className="hover:text-orange-500 transition-colors">Languages</a></li><li><a href="#" className="hover:text-orange-500 transition-colors">Music & Arts</a></li></ul></div>
         <div><h4 className="text-white font-bold mb-4">Support</h4><ul className="space-y-2 text-sm"><li><a href="#" className="hover:text-orange-500 transition-colors">Help Center</a></li><li><a href="#" className="hover:text-orange-500 transition-colors">Teacher Handbook</a></li><li><a href="#" className="hover:text-orange-500 transition-colors">Trust & Safety</a></li><li><a href="#" className="hover:text-orange-500 transition-colors">Contact Us</a></li></ul></div>
-        <div><h4 className="text-white font-bold mb-4">Contact</h4><ul className="space-y-2 text-sm"><li className="flex items-center gap-2"><Mail className="w-4 h-4" /> support@tutorconnect.in</li><li className="flex items-center gap-2"><Phone className="w-4 h-4" /> +91 8000 9000 10</li><li className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Chennai, Tamilnadu</li></ul></div>
+        <div><h4 className="text-white font-bold mb-4">Contact</h4><ul className="space-y-2 text-sm"><li className="flex items-center gap-2"><Mail className="w-4 h-4" /> support@tutorz.in</li><li className="flex items-center gap-2"><Phone className="w-4 h-4" /> +91 8000 9000 10</li><li className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Chennai, Tamilnadu</li></ul></div>
       </div>
-      <div className="border-t border-gray-800 pt-8 text-center text-sm text-gray-500">&copy; 2024 TutorConnect India. All rights reserved.</div>
+      <div className="border-t border-gray-800 pt-8 text-center text-sm text-gray-500">&copy; 2026 Tutorz India. All rights reserved.</div>
     </div>
   </footer>
 );
@@ -602,6 +602,7 @@ export default function App() {
   const [learnerView, setLearnerView] = useState('home');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [redirectAfterLogin, setRedirectAfterLogin] = useState(null); // Smart redirection state
   
   const [cart, setCart] = useState([]);
   const [showStudentPayment, setShowStudentPayment] = useState(false);
@@ -674,7 +675,14 @@ export default function App() {
     setIsLoggedIn(true);
     const targetRole = role === 'student' ? 'learner' : role;
     setActiveRole(targetRole); 
-    setLearnerView('home'); 
+    
+    // Smart Redirection Logic
+    if (redirectAfterLogin) {
+      setLearnerView(redirectAfterLogin);
+      setRedirectAfterLogin(null);
+    } else {
+      setLearnerView('home'); 
+    }
     
     let displayName = name;
     if (!displayName) {
@@ -704,14 +712,11 @@ export default function App() {
     setCart([]);
   };
 
+  // UPDATED: Now allows adding to cart without login
   const handleAddToCart = (course) => {
-      if (!isLoggedIn) {
-          alert("You must be logged in to add items to your cart.");
-          setActiveRole('login');
-          return;
-      }
+      // Logic for adding to cart without login requirement
       if (!cart.find(c => c.id === course.id)) {
-          setCart([...cart, course]);
+          setCart(prev => [...prev, course]);
       }
   };
 
@@ -841,7 +846,19 @@ export default function App() {
       <div className="flex justify-between items-center">
         <button onClick={() => setLearnerView('home')} className={`flex flex-col items-center gap-1 ${learnerView === 'home' ? 'text-orange-600' : 'text-gray-500'}`}><Home className="w-6 h-6" /><span className="text-[10px] font-medium">Home</span></button>
         <button onClick={() => setLearnerView('browse')} className={`flex flex-col items-center gap-1 ${learnerView === 'browse' ? 'text-orange-600' : 'text-gray-500'}`}><Compass className="w-6 h-6" /><span className="text-[10px] font-medium">Browse</span></button>
-        <button onClick={() => { if (!isLoggedIn) { alert("Please login to view your cart."); setActiveRole('login'); } else { setLearnerView('cart'); } }} className={`relative flex flex-col items-center gap-1 ${learnerView === 'cart' ? 'text-orange-600' : 'text-gray-500'}`}>
+        <button 
+          onClick={() => { 
+             // Enforce Login for Viewing Cart
+             if (!isLoggedIn) { 
+                 alert("Please login to view your cart."); 
+                 setRedirectAfterLogin('cart');
+                 setActiveRole('login'); 
+             } else { 
+                 setLearnerView('cart'); 
+             } 
+          }} 
+          className={`relative flex flex-col items-center gap-1 ${learnerView === 'cart' ? 'text-orange-600' : 'text-gray-500'}`}
+        >
           <div className="relative"><ShoppingCart className="w-6 h-6" />{cart.length > 0 && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">{cart.length}</span>}</div><span className="text-[10px] font-medium">Cart</span>
         </button>
         <button onClick={() => isLoggedIn ? setLearnerView('profile') : setActiveRole('login')} className={`flex flex-col items-center gap-1 ${learnerView === 'profile' ? 'text-orange-600' : 'text-gray-500'}`}><User className="w-6 h-6" /><span className="text-[10px] font-medium">Account</span></button>
@@ -952,7 +969,9 @@ export default function App() {
       return result.sort((a, b) => (b.isPromoted === a.isPromoted ? 0 : b.isPromoted ? 1 : -1));
     }, [courses, searchQuery, selectedCategory, selectedMode]);
 
-    const CourseCard = ({ course, isMobileSnap = false }) => (
+    const CourseCard = ({ course, isMobileSnap = false }) => {
+      const isInCart = cart.some(c => c.id === course.id);
+      return (
       <div className={`bg-white rounded-[1.5rem] border border-gray-100 overflow-hidden hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] transition-all duration-300 group flex flex-col h-full ${isMobileSnap ? 'min-w-[280px] md:min-w-0 snap-center' : ''} ${course.isPromoted ? 'ring-2 ring-purple-100' : ''}`}>
         <div className="h-40 md:h-48 relative cursor-pointer" onClick={() => navigateToCourse(course)}>
           <div className="absolute inset-0 overflow-hidden"><div className={`absolute inset-0 bg-gradient-to-br ${getGradient(course.category)} opacity-90 group-hover:scale-105 transition-transform duration-700`} /></div>
@@ -972,11 +991,24 @@ export default function App() {
           <p className="text-gray-600 text-sm line-clamp-2 mb-4 flex-grow leading-relaxed">{course.description}</p>
           <div className="flex items-center justify-between pt-4 border-t border-gray-50 mt-auto">
             <div><p className="text-xs text-gray-400 font-medium uppercase">Starting at</p><span className="font-bold text-lg md:text-xl text-gray-900">{course.price}</span></div>
-            <button onClick={() => navigateToCourse(course)} className="bg-gray-50 hover:bg-orange-600 text-gray-900 hover:text-white px-4 md:px-5 py-2 md:py-2.5 rounded-xl text-xs md:text-sm font-bold transition-all">Details</button>
+            <div className="flex gap-2">
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation(); 
+                    handleAddToCart(course);
+                  }} 
+                  className={`p-2 rounded-xl transition-all ${isInCart ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-600 hover:bg-orange-200'}`}
+                  title={isInCart ? "In Cart" : "Add to Cart"}
+                >
+                  {isInCart ? <Check className="w-5 h-5"/> : <ShoppingCart className="w-5 h-5"/>}
+                </button>
+                <button onClick={() => navigateToCourse(course)} className="bg-gray-50 hover:bg-orange-600 text-gray-900 hover:text-white px-4 md:px-5 py-2 md:py-2.5 rounded-xl text-xs md:text-sm font-bold transition-all">Details</button>
+            </div>
           </div>
         </div>
       </div>
-    );
+      );
+    };
 
     if (learnerView === 'home') {
       return (
@@ -1040,7 +1072,7 @@ export default function App() {
            {cart.length > 0 ? (
                <div className="flex flex-col lg:flex-row gap-8">
                    <div className="flex-grow space-y-4">{cart.map(item => (<div key={item.id} className="bg-white p-4 rounded-xl border border-gray-200 flex flex-col sm:flex-row gap-4 relative"><div className="w-full sm:w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center text-2xl font-bold text-gray-400">{item.title.charAt(0)}</div><div className="flex-grow"><div className="flex justify-between items-start"><div><h3 className="font-bold text-gray-900">{item.title}</h3><p className="text-sm text-gray-500">{item.teacherName}</p></div><button onClick={() => handleRemoveFromCart(item.id)} className="text-gray-400 hover:text-red-500 p-1"><X className="w-5 h-5" /></button></div><div className="mt-2 flex items-center gap-2 text-xs text-gray-500"><span className="bg-gray-100 px-2 py-1 rounded">{item.mode}</span><span>{item.duration}</span></div><div className="mt-3 font-bold text-gray-900 text-lg">{item.price}</div></div></div>))}</div>
-                   <div className="w-full lg:w-80 shrink-0"><div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm sticky top-24"><h3 className="font-bold text-gray-900 mb-4">Order Summary</h3><div className="space-y-3 mb-6 border-b border-gray-100 pb-6"><div className="flex justify-between text-sm text-gray-600"><span>Subtotal</span><span>₹{totalAmount}</span></div><div className="flex justify-between text-sm text-gray-600"><span>Platform Fee</span><span>₹0</span></div></div><div className="flex justify-between font-bold text-xl text-gray-900 mb-6"><span>Total</span><span>₹{totalAmount}</span></div><button onClick={handleStudentCheckout} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2">Proceed to Checkout <ArrowRight className="w-4 h-4" /></button></div></div>
+                   <div className="w-full lg:w-80 shrink-0"><div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm sticky top-24"><h3 className="font-bold text-gray-900 mb-4">Order Summary</h3><div className="space-y-3 mb-6 border-b border-gray-100 pb-6"><div className="flex justify-between text-sm text-gray-600"><span>Subtotal</span><span>₹{totalAmount}</span></div><div className="flex justify-between text-sm text-gray-600"><span>Platform Fee</span><span>₹0</span></div></div><div className="flex justify-between font-bold text-xl text-gray-900 mb-6"><span>Total</span><span>₹{totalAmount}</span></div><button onClick={() => { if (!isLoggedIn) { alert("Please login to proceed to checkout."); setRedirectAfterLogin('cart'); setActiveRole('login'); } else { handleStudentCheckout(); } }} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2">Proceed to Checkout <ArrowRight className="w-4 h-4" /></button></div></div>
                </div>
            ) : (<div className="text-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200"><div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-gray-400"><ShoppingCart className="w-8 h-8" /></div><h3 className="text-lg font-bold text-gray-900 mb-2">Your cart is empty</h3><p className="text-gray-500 mb-6">Looks like you haven't added any courses yet.</p><button onClick={() => setLearnerView('browse')} className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2.5 px-6 rounded-lg transition-colors">Start Browsing</button></div>)}
            <MobileBottomNav />
