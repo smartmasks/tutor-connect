@@ -1,3 +1,4 @@
+// ... (imports remain the same)
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { 
   Search, 
@@ -56,28 +57,21 @@ import {
   ShoppingCart,
   UploadCloud,
   TrendingUp, 
-  Zap,
-  Briefcase,
-  FileText,
-  Download,
-  Map as MapIcon,
-  HelpCircle,
-  List,
-  Settings
+  Zap 
 } from 'lucide-react';
 
-// --- Mock Data ---
+// ... (Mock Data remains the same)
 const INITIAL_TEACHERS = [
-  { id: 101, name: "R.K. Verma", email: "rk.verma@example.com", phone: "+91 9876543210", subject: "Mathematics", status: "Active", joinDate: "2023-01-15", isVerified: true, bio: "20+ years of experience in coaching for IIT JEE. Formerly senior faculty at Kota.", location: "Anna Nagar, Chennai", coordinates: { top: '30%', left: '20%' } },
-  { id: 102, name: "Priya Singh", email: "priya.s@example.com", phone: "+91 9812345678", subject: "English", status: "Active", joinDate: "2023-02-20", isVerified: true, bio: "Certified IELTS trainer and Literature major. I make grammar fun and easy.", location: "Indiranagar, Bangalore", coordinates: { top: '45%', left: '60%' } },
-  { id: 103, name: "Rahul Sharma", email: "rahul.dev@example.com", phone: "+91 9988776655", subject: "Computer Science", status: "Inactive", joinDate: "2023-03-10", isVerified: true, bio: "Full stack developer working at a top MNC. I teach coding on weekends.", location: "Whitefield, Bangalore", coordinates: { top: '50%', left: '70%' } },
-  { id: 104, name: "Sneha Deshmukh", email: "sneha.music@example.com", phone: "+91 9123456789", subject: "Music", status: "Active", joinDate: "2023-04-05", isVerified: true, bio: "Visharad in Hindustani Classical music. Performed at various state level concerts.", location: "Kothrud, Pune", coordinates: { top: '60%', left: '30%' } },
-  { id: 105, name: "Anjali Gupta", email: "anjali.sci@example.com", phone: "+91 8877665544", subject: "Science", status: "Active", joinDate: "2023-05-12", isVerified: true, bio: "PhD in Biology. Passionate about making science concepts crystal clear for school students.", location: "Powai, Mumbai", coordinates: { top: '40%', left: '15%' } },
-  { id: 106, name: "Kenji Nakamura", email: "kenji@example.com", phone: "+91 7777777777", subject: "Japanese", status: "Active", joinDate: "2023-06-01", isVerified: true, bio: "Native Japanese speaker with 5 years of teaching experience in India.", location: "Gurgaon, Delhi NCR", coordinates: { top: '15%', left: '40%' } },
-  { id: 107, name: "S. Srinivasan", email: "srinivasan@example.com", phone: "+91 6666666666", subject: "Mathematics", status: "Active", joinDate: "2023-06-15", isVerified: true, bio: "Strict but effective. My students consistently score 95+ in boards.", location: "Mylapore, Chennai", coordinates: { top: '80%', left: '25%' } },
-  { id: 108, name: "Riya's Studio", email: "riya@example.com", phone: "+91 5555555555", subject: "Dance", status: "Active", joinDate: "2023-07-01", isVerified: true, bio: "Professional choreographer specializing in contemporary and hip-hop.", location: "Bandra, Mumbai", coordinates: { top: '42%', left: '12%' } },
-  { id: 109, name: "Vikram Malhotra", email: "vikram@example.com", phone: "+91 4444444444", subject: "Chess", status: "Active", joinDate: "2023-08-01", isVerified: true, bio: "FIDE Rated player. I teach strategy and opening theory.", location: "Salt Lake, Kolkata", coordinates: { top: '35%', left: '85%' } },
-  { id: 110, name: "Sarah Jones", email: "sarah@example.com", phone: "+91 3333333333", subject: "Yoga", status: "Active", joinDate: "2023-08-15", isVerified: true, bio: "Certified Yoga Alliance instructor. Focus on Hatha and Vinyasa flow.", location: "Rishikesh, Uttarakhand", coordinates: { top: '10%', left: '35%' } },
+  { id: 101, name: "R.K. Verma", email: "rk.verma@example.com", phone: "+91 9876543210", subject: "Mathematics", status: "Active", joinDate: "2023-01-15", isVerified: true, bio: "20+ years of experience in coaching for IIT JEE. Formerly senior faculty at Kota." },
+  { id: 102, name: "Priya Singh", email: "priya.s@example.com", phone: "+91 9812345678", subject: "English", status: "Active", joinDate: "2023-02-20", isVerified: true, bio: "Certified IELTS trainer and Literature major. I make grammar fun and easy." },
+  { id: 103, name: "Rahul Sharma", email: "rahul.dev@example.com", phone: "+91 9988776655", subject: "Computer Science", status: "Inactive", joinDate: "2023-03-10", isVerified: true, bio: "Full stack developer working at a top MNC. I teach coding on weekends." },
+  { id: 104, name: "Sneha Deshmukh", email: "sneha.music@example.com", phone: "+91 9123456789", subject: "Music", status: "Active", joinDate: "2023-04-05", isVerified: true, bio: "Visharad in Hindustani Classical music. Performed at various state level concerts." },
+  { id: 105, name: "Anjali Gupta", email: "anjali.sci@example.com", phone: "+91 8877665544", subject: "Science", status: "Active", joinDate: "2023-05-12", isVerified: true, bio: "PhD in Biology. Passionate about making science concepts crystal clear for school students." },
+  { id: 106, name: "Kenji Nakamura", email: "kenji@example.com", phone: "+91 7777777777", subject: "Japanese", status: "Active", joinDate: "2023-06-01", isVerified: true, bio: "Native Japanese speaker with 5 years of teaching experience in India." },
+  { id: 107, name: "S. Srinivasan", email: "srinivasan@example.com", phone: "+91 6666666666", subject: "Mathematics", status: "Active", joinDate: "2023-06-15", isVerified: true, bio: "Strict but effective. My students consistently score 95+ in boards." },
+  { id: 108, name: "Riya's Studio", email: "riya@example.com", phone: "+91 5555555555", subject: "Dance", status: "Active", joinDate: "2023-07-01", isVerified: true, bio: "Professional choreographer specializing in contemporary and hip-hop." },
+  { id: 109, name: "Vikram Malhotra", email: "vikram@example.com", phone: "+91 4444444444", subject: "Chess", status: "Active", joinDate: "2023-08-01", isVerified: true, bio: "FIDE Rated player. I teach strategy and opening theory." },
+  { id: 110, name: "Sarah Jones", email: "sarah@example.com", phone: "+91 3333333333", subject: "Yoga", status: "Active", joinDate: "2023-08-15", isVerified: true, bio: "Certified Yoga Alliance instructor. Focus on Hatha and Vinyasa flow." },
 ];
 
 const INITIAL_COURSES = [
@@ -210,7 +204,7 @@ const INITIAL_COURSES = [
     teacherName: "Rahul Sharma",
     teacherId: 103,
     description: "A fun and interactive introduction to Python programming. Build games and simple apps. Designed specifically for ages 10-15.",
-    category: "IT Courses",
+    category: "IT & Coding",
     mode: "Online",
     status: "Approved",
     price: "₹500/hr",
@@ -244,7 +238,7 @@ const INITIAL_COURSES = [
     teacherName: "Priya Singh",
     teacherId: 102,
     description: "Master SEO, Social Media Marketing, and Google Ads. Practical projects included. Suitable for students and entrepreneurs.",
-    category: "IT Courses",
+    category: "IT & Coding",
     mode: "Online",
     status: "Approved",
     price: "₹900/hr",
@@ -317,11 +311,11 @@ const INITIAL_ENQUIRIES = [
 ];
 
 const CATEGORIES = [
-  { name: "All", icon: <BookOpen className="w-5 h-5" /> },
+  { name: "All", icon: null },
   { name: "School Tuitions", icon: <BookOpen className="w-5 h-5" /> },
   { name: "Competitive Exams", icon: <GraduationCap className="w-5 h-5" /> },
   { name: "Languages", icon: <Languages className="w-5 h-5" /> },
-  { name: "IT Courses", icon: <Code className="w-5 h-5" /> },
+  { name: "IT & Coding", icon: <Code className="w-5 h-5" /> },
   { name: "Music & Dance", icon: <Music className="w-5 h-5" /> },
   { name: "Arts", icon: <Palette className="w-5 h-5" /> },
   { name: "Sports & Games", icon: <Gamepad2 className="w-5 h-5" /> },
@@ -343,296 +337,13 @@ function getGradient(category) {
      case 'Competitive Exams': return 'from-orange-400 to-red-600';
      case 'Languages': return 'from-emerald-400 to-emerald-600';
      case 'Music & Dance': return 'from-purple-400 to-pink-600';
-     case 'IT Courses': return 'from-blue-400 to-indigo-600';
+     case 'IT & Coding': return 'from-blue-400 to-indigo-600';
      case 'School Tuitions': return 'from-cyan-400 to-blue-500';
      default: return 'from-gray-400 to-gray-600';
    }
 }
 
-const downloadInvoice = (order) => {
-    const content = `
-TUTORCONNECT INDIA - INVOICE
-----------------------------
-Order ID: #${order.id}
-Date:     ${order.date}
-Customer: ${order.customerName}
-Email:    ${order.customerEmail}
-
-ITEMS:
-${order.items.map((item, i) => `${i+1}. ${item.title}  -  ${item.price}`).join('\n')}
-
-----------------------------
-TOTAL PAID: ₹${order.total}
-----------------------------
-
-Thank you for choosing TutorConnect!
-www.tutorz.in
-    `;
-    
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `Invoice_TC-${order.id}.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-};
-
 // --- Components ---
-
-const ProfileSettings = ({ user, onSave, onLogout }) => {
-  const [formData, setFormData] = useState({
-    name: user?.name || '',
-    email: user?.email || '',
-    phone: user?.phone || '',
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: ''
-  });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (formData.newPassword && formData.newPassword !== formData.confirmPassword) {
-      alert("New passwords do not match!");
-      return;
-    }
-    // Simulate save
-    onSave({
-        ...user,
-        name: formData.name,
-        phone: formData.phone
-    });
-    alert("Profile updated successfully!");
-    setFormData(prev => ({ ...prev, currentPassword: '', newPassword: '', confirmPassword: '' }));
-  };
-
-  return (
-    <div className="max-w-3xl mx-auto pb-20 md:pb-0 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      {/* Header */}
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Account Settings</h1>
-      
-      <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
-        {/* Avatar Section */}
-        <div className="p-6 md:p-8 border-b border-gray-100 flex flex-col md:flex-row items-center gap-6 bg-gray-50/50">
-           <div className={`w-24 h-24 rounded-full flex items-center justify-center text-3xl font-bold text-white shadow-lg ${user.role === 'tutor' ? 'bg-orange-500' : 'bg-blue-600'}`}>
-              {user.name.charAt(0)}
-           </div>
-           <div className="text-center md:text-left">
-              <h2 className="text-xl font-bold text-gray-900">{user.name}</h2>
-              <p className="text-gray-500">{user.email}</p>
-              <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mt-1">{user.role}</p>
-           </div>
-           <div className="md:ml-auto flex gap-3">
-               <button onClick={onLogout} className="px-4 py-2 border border-red-200 bg-red-50 rounded-lg text-sm font-bold text-red-600 hover:bg-red-100 transition-colors flex items-center gap-2">
-                  <LogOut className="w-4 h-4" /> Logout
-               </button>
-           </div>
-        </div>
-
-        {/* Form Section */}
-        <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-8">
-           {/* Personal Details */}
-           <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                 <User className="w-5 h-5 text-gray-400" /> Personal Details
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                    <input 
-                      type="text" 
-                      name="name" 
-                      value={formData.name} 
-                      onChange={handleChange}
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none" 
-                    />
-                 </div>
-                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                    <input 
-                      type="tel" 
-                      name="phone" 
-                      value={formData.phone} 
-                      onChange={handleChange} 
-                      placeholder="+91..."
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none" 
-                    />
-                 </div>
-                 <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                    <input 
-                      type="email" 
-                      name="email" 
-                      value={formData.email} 
-                      disabled 
-                      className="w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-500 cursor-not-allowed" 
-                    />
-                    <p className="text-xs text-gray-400 mt-1">Contact support to change email.</p>
-                 </div>
-              </div>
-           </div>
-
-           <div className="w-full h-px bg-gray-100"></div>
-
-           {/* Security */}
-           <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                 <Lock className="w-5 h-5 text-gray-400" /> Security & Password
-              </h3>
-              <div className="space-y-4 max-w-md">
-                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
-                    <input 
-                      type="password" 
-                      name="currentPassword" 
-                      value={formData.currentPassword} 
-                      onChange={handleChange}
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none" 
-                      placeholder="••••••••" 
-                    />
-                 </div>
-                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
-                    <input 
-                      type="password" 
-                      name="newPassword" 
-                      value={formData.newPassword} 
-                      onChange={handleChange}
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none" 
-                      placeholder="Leave blank to keep current" 
-                    />
-                 </div>
-                 {formData.newPassword && (
-                    <div className="animate-in fade-in slide-in-from-top-1">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
-                        <input 
-                          type="password" 
-                          name="confirmPassword" 
-                          value={formData.confirmPassword} 
-                          onChange={handleChange}
-                          className={`w-full rounded-lg border px-3 py-2.5 text-sm focus:ring-2 outline-none ${formData.confirmPassword && formData.newPassword !== formData.confirmPassword ? 'border-red-300 focus:ring-red-200' : 'border-gray-300 focus:ring-blue-500'}`}
-                          placeholder="Repeat new password" 
-                        />
-                        {formData.confirmPassword && formData.newPassword !== formData.confirmPassword && (
-                            <p className="text-xs text-red-500 mt-1">Passwords do not match</p>
-                        )}
-                    </div>
-                 )}
-              </div>
-           </div>
-
-           {/* Actions */}
-           <div className="flex items-center justify-end gap-4 pt-4 border-t border-gray-100">
-              <button type="button" className="px-6 py-2.5 rounded-lg border border-gray-300 font-bold text-gray-700 hover:bg-gray-50 transition-colors">
-                Cancel
-              </button>
-              <button type="submit" className="px-6 py-2.5 rounded-lg bg-blue-600 font-bold text-white hover:bg-blue-700 shadow-md shadow-blue-200 transition-colors">
-                Save Changes
-              </button>
-           </div>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-const ProfileDropdown = ({ user, onLogout, onNavigate }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const dropdownRef = useRef(null);
-  
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-          setIsOpen(false);
-        }
-      };
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-  
-    const handleAction = (action) => {
-        action();
-        setIsOpen(false);
-    };
-
-    const getMenuItems = () => {
-        const commonItems = [
-            { label: 'Profile Detail', icon: User, action: () => onNavigate('profile') },
-        ];
-        
-        const learnerItems = [
-            { label: 'My Learnings', icon: BookOpen, action: () => onNavigate('my-learnings') },
-            { label: 'Wishlist', icon: Heart, action: () => onNavigate('wishlist') },
-            { label: 'Support', icon: HelpCircle, action: () => onNavigate('support') },
-        ];
-
-        const tutorItems = [
-             { label: 'Course List', icon: List, action: () => onNavigate('courses') },
-             { label: 'Support', icon: HelpCircle, action: () => onNavigate('support') },
-        ];
-
-        let roleItems = [];
-        if (user.role === 'learner') roleItems = learnerItems;
-        if (user.role === 'tutor') roleItems = tutorItems;
-        
-        // Admin usually gets dashboard, keep simple for now
-        if (user.role === 'admin') {
-            roleItems = [{ label: 'Dashboard', icon: LayoutDashboard, action: () => onNavigate('dashboard') }];
-        }
-
-        return [...commonItems, ...roleItems];
-    };
-  
-    return (
-      <div className="relative" ref={dropdownRef}>
-        <button 
-          onClick={() => setIsOpen(!isOpen)} 
-          className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-full border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-300"
-        >
-           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-xs ${user.role === 'admin' ? 'bg-purple-500' : user.role === 'tutor' ? 'bg-orange-500' : 'bg-blue-500'}`}>
-                {user.name.charAt(0)}
-           </div>
-           <span className="font-semibold text-gray-700 text-sm hidden md:block max-w-[100px] truncate">{user.name}</span>
-           <span className="text-gray-400 hidden md:block">|</span>
-           <span className="uppercase text-gray-500 text-[10px] tracking-wide hidden md:block">{user.role}</span>
-        </button>
-  
-        {isOpen && (
-          <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-             <div className="px-4 py-3 border-b border-gray-100 md:hidden">
-                <p className="text-sm font-bold text-gray-900">{user.name}</p>
-                <p className="text-xs text-gray-500 capitalize">{user.role}</p>
-             </div>
-             {getMenuItems().map((item, index) => (
-                <button
-                    key={index}
-                    onClick={() => handleAction(item.action)}
-                    className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-orange-600 flex items-center gap-3 transition-colors"
-                >
-                    <item.icon className="w-4 h-4" />
-                    {item.label}
-                </button>
-             ))}
-             <div className="border-t border-gray-100 mt-2 pt-2">
-                <button 
-                    onClick={() => handleAction(onLogout)}
-                    className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 flex items-center gap-3 transition-colors"
-                >
-                    <LogOut className="w-4 h-4" />
-                    Logout
-                </button>
-             </div>
-          </div>
-        )}
-      </div>
-    );
-};
-
 const StatusBadge = ({ status }) => {
   const styles = {
     Approved: "bg-emerald-100 text-emerald-800 border-emerald-200",
@@ -762,7 +473,8 @@ const PaymentGateway = ({ amount, title, description, onSuccess, onCancel }) => 
     );
 };
 
-const CourseDetail = ({ course, teacher, onBack, onAddToCart, isInCart, isTeacherPreview, onEnquire }) => (
+// Reusable Course Detail Component
+const CourseDetail = ({ course, teacher, onBack, onAddToCart, isInCart, isTeacherPreview }) => (
   <div className="animate-in slide-in-from-right-4 duration-300 pb-20 md:pb-0">
     <div className="flex items-center gap-2 mb-6 text-sm text-gray-500">
       <span className="cursor-pointer hover:text-orange-600" onClick={onBack}>
@@ -837,7 +549,6 @@ const CourseDetail = ({ course, teacher, onBack, onAddToCart, isInCart, isTeache
                 </div>
                 
                 {!isTeacherPreview ? (
-                    <>
                     <button 
                       onClick={onAddToCart}
                       disabled={isInCart}
@@ -845,8 +556,6 @@ const CourseDetail = ({ course, teacher, onBack, onAddToCart, isInCart, isTeache
                     >
                        {isInCart ? <><Check className="w-5 h-5" /> Added to Cart</> : <><ShoppingCart className="w-5 h-5" /> Add to Cart</>}
                     </button>
-                    <button onClick={onEnquire} className="w-full bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold py-3 rounded-xl transition-all">Enquire Now</button>
-                    </>
                 ) : (
                     <div className="bg-gray-100 text-gray-500 text-center py-3 rounded-xl text-sm font-medium mb-4 border border-gray-200">Student View Preview</div>
                 )}
@@ -868,6 +577,7 @@ const CourseDetail = ({ course, teacher, onBack, onAddToCart, isInCart, isTeache
   </div>
 );
 
+// Footer Component
 const Footer = () => (
   <footer className="bg-gray-900 text-gray-300 pt-16 pb-24 md:pb-8 mt-20">
     <div className="max-w-6xl mx-auto px-4 md:px-8">
@@ -887,244 +597,15 @@ const Footer = () => (
   </footer>
 );
 
-const Pricing = ({ onContact }) => (
-  <div className="animate-in fade-in duration-500 pb-20 md:pb-0">
-    <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16 pt-8 md:pt-12 px-4">
-      <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">Choose the right plan for your <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-pink-600">learning journey</span></h2>
-      <p className="text-lg md:text-xl text-gray-500 leading-relaxed">Whether you're studying alone, with friends, or scaling up for an entire institution, we have a plan perfectly tailored for you.</p>
-    </div>
-
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4 mb-20">
-      {/* Individual Plan */}
-      <div className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group flex flex-col">
-        <div className="absolute top-0 left-0 w-full h-2 bg-orange-500"></div>
-        <div className="mb-6">
-           <div className="w-14 h-14 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform"><User className="w-7 h-7" /></div>
-           <h3 className="text-2xl font-bold text-gray-900">Individual</h3>
-           <p className="text-sm text-gray-500 mt-2 font-medium">Perfect for self-paced learners.</p>
-        </div>
-        <div className="mb-8">
-           <div className="flex items-baseline"><span className="text-5xl font-extrabold text-gray-900 tracking-tight">₹499</span><span className="text-gray-400 font-medium ml-2">/mo</span></div>
-           <p className="text-xs text-orange-600 font-bold mt-2 bg-orange-50 inline-block px-2 py-1 rounded">Save 20% on yearly</p>
-        </div>
-        <ul className="space-y-4 mb-8 flex-grow">
-           {['Unlimited Course Access', 'Course Certificates', 'Offline Downloads', '1-on-1 Doubt Solving', 'Ad-free Experience'].map((feat, i) => (
-             <li key={i} className="flex items-center gap-3 text-sm text-gray-600"><div className="p-1 rounded-full bg-green-100"><Check className="w-3 h-3 text-green-600" /></div> {feat}</li>
-           ))}
-        </ul>
-        <button className="w-full py-4 rounded-xl border-2 border-orange-600 text-orange-600 font-bold hover:bg-orange-600 hover:text-white transition-all duration-300 shadow-sm hover:shadow-orange-200">Get Started</button>
-      </div>
-
-      {/* Team Plan (Highlighted) */}
-      <div className="bg-gray-900 rounded-[2rem] p-8 border border-gray-800 shadow-2xl relative overflow-hidden transform md:-translate-y-6 flex flex-col">
-        <div className="absolute top-0 right-0 bg-gradient-to-l from-purple-600 to-blue-600 text-white text-xs font-bold px-4 py-1.5 rounded-bl-xl shadow-lg">MOST POPULAR</div>
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-gray-800/50 to-transparent pointer-events-none"></div>
-        <div className="mb-6 relative z-10">
-           <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-600 text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-900/20"><Users className="w-7 h-7" /></div>
-           <h3 className="text-2xl font-bold text-white">Team / Group</h3>
-           <p className="text-sm text-gray-400 mt-2 font-medium">For study groups & small cohorts.</p>
-        </div>
-        <div className="mb-8 relative z-10">
-           <div className="flex items-baseline"><span className="text-5xl font-extrabold text-white tracking-tight">₹1,499</span><span className="text-gray-500 font-medium ml-2">/mo</span></div>
-           <p className="text-xs text-blue-400 font-bold mt-2 flex items-center gap-1"><UsersIcon className="w-3 h-3" /> Up to 5 members included</p>
-        </div>
-        <ul className="space-y-4 mb-8 flex-grow relative z-10">
-           {['Everything in Individual', 'Shared Team Dashboard', 'Group Assignments', 'Team Progress Tracking', 'Priority Support', 'Collaborative Whiteboard'].map((feat, i) => (
-             <li key={i} className="flex items-center gap-3 text-sm text-gray-300"><div className="p-1 rounded-full bg-blue-500/20"><Check className="w-3 h-3 text-blue-400" /></div> {feat}</li>
-           ))}
-        </ul>
-        <button className="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold hover:from-blue-500 hover:to-purple-500 shadow-lg shadow-blue-900/50 transition-all duration-300 relative z-10 transform active:scale-95">Create Team</button>
-      </div>
-
-      {/* Business Plan */}
-      <div className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col">
-        <div className="absolute top-0 left-0 w-full h-2 bg-gray-300"></div>
-        <div className="mb-6">
-           <div className="w-14 h-14 bg-gray-100 text-gray-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm"><Building className="w-7 h-7" /></div>
-           <h3 className="text-2xl font-bold text-gray-900">Business</h3>
-           <p className="text-sm text-gray-500 mt-2 font-medium">For schools & institutions.</p>
-        </div>
-        <div className="mb-8">
-           <span className="text-4xl font-extrabold text-gray-900 tracking-tight">Custom</span>
-           <p className="text-xs text-gray-500 font-bold mt-2">Tailored to your organization</p>
-        </div>
-        <ul className="space-y-4 mb-8 flex-grow">
-           {['Bulk Enrollment', 'LMS Integration (API)', 'Dedicated Account Manager', 'Custom Branding', 'Advanced Analytics', 'SSO Integration'].map((feat, i) => (
-             <li key={i} className="flex items-center gap-3 text-sm text-gray-600"><div className="p-1 rounded-full bg-gray-100"><Check className="w-3 h-3 text-gray-400" /></div> {feat}</li>
-           ))}
-        </ul>
-        <button onClick={onContact} className="w-full py-4 rounded-xl border-2 border-gray-200 text-gray-700 font-bold hover:bg-gray-50 hover:border-gray-300 transition-all duration-300">Contact Sales</button>
-      </div>
-    </div>
-    
-    <div className="mt-12 bg-blue-50 py-12">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-            <h3 className="text-xl font-bold text-blue-900 mb-4">Frequently Asked Questions</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-                <div className="bg-white p-4 rounded-xl border border-blue-100">
-                    <h4 className="font-bold text-gray-900 text-sm mb-1">Can I cancel anytime?</h4>
-                    <p className="text-xs text-gray-600">Yes, you can cancel your subscription at any time. Your access will continue until the end of the billing period.</p>
-                </div>
-                <div className="bg-white p-4 rounded-xl border border-blue-100">
-                    <h4 className="font-bold text-gray-900 text-sm mb-1">Do you offer student discounts?</h4>
-                    <p className="text-xs text-gray-600">The Individual plan is already discounted for students. Institutions can contact us for bulk pricing.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div className="mt-0">
-        <Footer />
-    </div>
-  </div>
-);
-
-// New Find Tutors Component
-const FindTutors = ({ teachers, onContact }) => {
-    const [searchTerm, setSearchTerm] = useState("");
-    const [locationTerm, setLocationTerm] = useState("");
-    const [hoveredTutor, setHoveredTutor] = useState(null);
-
-    const filteredTeachers = teachers.filter(t => {
-        const matchesSubject = t.subject.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                               t.name.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesLocation = (t.location || "").toLowerCase().includes(locationTerm.toLowerCase());
-        return matchesSubject && matchesLocation;
-    });
-
-    return (
-        <div className="animate-in fade-in duration-500 pb-20 md:pb-0">
-            {/* Header & Filter Bar */}
-            <div className="bg-white border-b border-gray-200 sticky top-16 z-30 shadow-sm">
-                <div className="max-w-7xl mx-auto px-4 py-4 md:py-6">
-                    <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Find the Best Tutors Near You</h1>
-                    <div className="flex flex-col md:flex-row gap-3">
-                        <div className="relative flex-grow">
-                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-                             <input 
-                                type="text" 
-                                placeholder="Search by Subject or Tutor Name" 
-                                className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                             />
-                        </div>
-                        <div className="relative md:w-1/3">
-                             <MapIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-                             <input 
-                                type="text" 
-                                placeholder="Location (City or Area)" 
-                                className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                                value={locationTerm}
-                                onChange={(e) => setLocationTerm(e.target.value)}
-                             />
-                        </div>
-                        <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl transition-colors shadow-md">
-                            Search
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div className="max-w-7xl mx-auto px-4 py-6">
-                <div className="flex flex-col lg:flex-row gap-6">
-                    {/* List Section */}
-                    <div className="w-full lg:w-3/5 space-y-4">
-                        <p className="text-sm text-gray-500 font-medium mb-2">{filteredTeachers.length} Tutors found</p>
-                        {filteredTeachers.map(tutor => (
-                            <div 
-                                key={tutor.id} 
-                                className={`bg-white p-5 rounded-2xl border transition-all duration-300 flex flex-col sm:flex-row gap-5 hover:shadow-lg ${hoveredTutor === tutor.id ? 'border-blue-500 shadow-md ring-1 ring-blue-100' : 'border-gray-200'}`}
-                                onMouseEnter={() => setHoveredTutor(tutor.id)}
-                                onMouseLeave={() => setHoveredTutor(null)}
-                            >
-                                <div className="w-full sm:w-24 h-24 bg-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center text-3xl font-bold text-gray-400">
-                                    {tutor.name.charAt(0)}
-                                </div>
-                                <div className="flex-grow">
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <h3 className="text-lg font-bold text-gray-900">{tutor.name}</h3>
-                                            <p className="text-blue-600 font-medium text-sm">{tutor.subject} Expert</p>
-                                        </div>
-                                        {tutor.isVerified && <span className="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1"><Shield className="w-3 h-3" /> VERIFIED</span>}
-                                    </div>
-                                    <p className="text-gray-500 text-sm mt-2 line-clamp-2">{tutor.bio}</p>
-                                    
-                                    <div className="flex flex-wrap items-center gap-4 mt-4 text-sm text-gray-600">
-                                        <div className="flex items-center gap-1"><Star className="w-4 h-4 text-yellow-400 fill-yellow-400" /><span className="font-bold text-gray-900">4.8</span></div>
-                                        <div className="flex items-center gap-1"><MapPin className="w-4 h-4 text-gray-400" />{tutor.location}</div>
-                                    </div>
-                                    
-                                    <div className="mt-4 flex gap-3">
-                                        <button className="flex-1 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 text-sm font-bold rounded-lg border border-gray-200 transition-colors">View Profile</button>
-                                        <button onClick={() => onContact(tutor)} className="flex-1 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg transition-colors shadow-sm">Contact</button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                        {filteredTeachers.length === 0 && (
-                            <div className="text-center py-12 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
-                                <p className="text-gray-500">No tutors found matching your criteria.</p>
-                                <button onClick={() => { setSearchTerm(""); setLocationTerm(""); }} className="text-blue-600 font-bold text-sm mt-2 hover:underline">Clear Filters</button>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Map Section (Sticky) */}
-                    <div className="hidden lg:block w-2/5">
-                        <div className="sticky top-44 h-[calc(100vh-200px)] min-h-[500px] bg-slate-100 rounded-2xl overflow-hidden relative border border-gray-200 shadow-inner group">
-                            {/* Mock Map Background Pattern */}
-                            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#64748b 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
-                            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-500 shadow-sm z-10">Mock Map View</div>
-                            
-                            {/* Pins */}
-                            {filteredTeachers.map(tutor => (
-                                tutor.coordinates && (
-                                    <div 
-                                        key={tutor.id}
-                                        className={`absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300 flex flex-col items-center group/pin ${hoveredTutor === tutor.id ? 'z-20 scale-110' : 'z-10'}`}
-                                        style={{ top: tutor.coordinates.top, left: tutor.coordinates.left }}
-                                        onMouseEnter={() => setHoveredTutor(tutor.id)}
-                                        onMouseLeave={() => setHoveredTutor(null)}
-                                    >
-                                        {hoveredTutor === tutor.id && (
-                                            <div className="bg-white px-3 py-1.5 rounded-lg shadow-lg mb-2 text-xs font-bold text-gray-900 whitespace-nowrap animate-in fade-in slide-in-from-bottom-2">
-                                                {tutor.name} • {tutor.subject}
-                                            </div>
-                                        )}
-                                        <div className={`p-2 rounded-full shadow-md transition-colors ${hoveredTutor === tutor.id ? 'bg-blue-600 text-white ring-4 ring-blue-600/20' : 'bg-white text-blue-600'}`}>
-                                            <MapPin className="w-5 h-5 fill-current" />
-                                        </div>
-                                    </div>
-                                )
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/* Removed MobileBottomNav from here to prevent ReferenceError */}
-        </div>
-    );
-};
-
 export default function App() {
   const [activeRole, setActiveRole] = useState('learner'); 
   const [learnerView, setLearnerView] = useState('home');
-  const [teacherView, setTeacherView] = useState('dashboard'); // Lifted State
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const [redirectAfterLogin, setRedirectAfterLogin] = useState(null);
+  const [redirectAfterLogin, setRedirectAfterLogin] = useState(null); // Smart redirection state
   
   const [cart, setCart] = useState([]);
-  const [wishlist, setWishlist] = useState([]); // New Wishlist State
-  const [myLearnings, setMyLearnings] = useState([]); // New My Learnings State
-  const [showLearnerPayment, setShowLearnerPayment] = useState(false);
-  
-  // New State for Order Success & Invoice
-  const [showOrderSuccess, setShowOrderSuccess] = useState(false);
-  const [lastOrder, setLastOrder] = useState(null);
+  const [showStudentPayment, setShowStudentPayment] = useState(false);
 
   const [courses, setCourses] = useState(INITIAL_COURSES);
   const [teachers, setTeachers] = useState(INITIAL_TEACHERS);
@@ -1172,14 +653,6 @@ export default function App() {
     .animate-in.slide-in-from-bottom-2 {
       animation: slideInFromBottom 0.5s ease-out forwards;
     }
-
-    @keyframes slideInFromTop {
-      from { transform: translateY(-10px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    .animate-in.slide-in-from-top-1 {
-      animation: slideInFromTop 0.3s ease-out forwards;
-    }
     
     @keyframes slideInFromRight {
       from { transform: translateX(20px); opacity: 0; }
@@ -1198,15 +671,6 @@ export default function App() {
     }
   `;
 
-  // Initialize some mock My Learnings data on first login
-  useEffect(() => {
-    if (isLoggedIn && currentUser?.role === 'learner' && myLearnings.length === 0) {
-        // Only if empty, to simulate fetch
-        setMyLearnings([INITIAL_COURSES[7]]); // Basic Python course
-    }
-  }, [isLoggedIn, currentUser]);
-
-
   const handleLogin = (role, email, name = null) => {
     setIsLoggedIn(true);
     const targetRole = role === 'student' ? 'learner' : role;
@@ -1223,31 +687,17 @@ export default function App() {
     let displayName = name;
     if (!displayName) {
         if (role === 'admin') displayName = "Administrator";
-        else if (role === 'tutor') displayName = "R.K. Verma"; 
-        else displayName = "Arjun Mehta"; 
+        else if (role === 'teacher') displayName = "R.K. Verma"; 
+        else if (role === 'student') displayName = "Arjun Mehta"; 
     }
 
     setCurrentUser({ name: displayName, email: email, role: role === 'student' ? 'learner' : role });
   };
 
-  const handleUpdateProfile = (updatedUser) => {
-      setCurrentUser(updatedUser);
-  };
-
   const handleRegister = (details) => {
-    // details: { name, email, phone, role, subject, socialLinks, areaOfInterest, isVerified, teamName, teamSize }
-    if (details.role === 'tutor') {
-      const newTeacher = { 
-          id: Date.now(), 
-          name: details.name, 
-          email: details.email, 
-          phone: details.phone || "Not Provided", 
-          subject: details.subject || "General", 
-          status: "Active", 
-          joinDate: new Date().toLocaleDateString(), 
-          isVerified: details.isVerified || false,
-          bio: details.socialLinks ? `LinkedIn: ${details.socialLinks.linkedin}` : "New Tutor"
-      };
+    const newUser = { name: details.name, email: details.email, role: details.role, id: Date.now() };
+    if (details.role === 'teacher') {
+      const newTeacher = { id: Date.now(), name: details.name, email: details.email, phone: details.phone || "Not Provided", subject: details.subject || "General", status: "Active", joinDate: new Date().toLocaleDateString(), isVerified: details.isVerified || false };
       setTeachers([...teachers, newTeacher]);
     }
     handleLogin(details.role, details.email, details.name);
@@ -1260,12 +710,11 @@ export default function App() {
     setCurrentUser(null);
     setIsMobileMenuOpen(false);
     setCart([]);
-    setWishlist([]);
-    setMyLearnings([]);
-    setTeacherView('dashboard'); // Reset teacher view
   };
 
+  // UPDATED: Now allows adding to cart without login
   const handleAddToCart = (course) => {
+      // Logic for adding to cart without login requirement
       if (!cart.find(c => c.id === course.id)) {
           setCart(prev => [...prev, course]);
       }
@@ -1274,73 +723,20 @@ export default function App() {
   const handleRemoveFromCart = (courseId) => {
       setCart(cart.filter(c => c.id !== courseId));
   };
-  
-  const handleAddToWishlist = (course) => {
-      if (!wishlist.find(c => c.id === course.id)) {
-          setWishlist(prev => [...prev, course]);
-      }
-  };
-
-  const handleRemoveFromWishlist = (courseId) => {
-      setWishlist(wishlist.filter(c => c.id !== courseId));
-  };
 
   const calculateTotal = () => {
       return cart.reduce((acc, course) => acc + parsePrice(course.price), 0);
   };
 
-  const handleLearnerCheckout = () => {
-      setShowLearnerPayment(true);
+  const handleStudentCheckout = () => {
+      setShowStudentPayment(true);
   };
 
-  const handleLearnerPaymentSuccess = () => {
-      // 1. Create Order Object
-      const orderId = Date.now().toString().slice(-6);
-      const orderTotal = calculateTotal();
-      const orderItems = [...cart];
-      
-      const newOrder = {
-          id: orderId,
-          date: new Date().toLocaleDateString(),
-          items: orderItems,
-          total: orderTotal,
-          customerName: currentUser?.name || "Guest",
-          customerEmail: currentUser?.email || "guest@example.com"
-      };
-      
-      // 2. Update State
-      setLastOrder(newOrder);
-      setMyLearnings(prev => [...orderItems, ...prev]); // Add to my learnings
-      setCart([]); // Clear cart
-      setShowLearnerPayment(false);
-      setShowOrderSuccess(true);
-      
-      // 3. Simulate Email Trigger
-      console.log(`[Mock Backend] Email triggered to ${newOrder.customerEmail} with invoice #${orderId}.`);
-  };
-
-  // Profile Dropdown Navigation Handler
-  const handleProfileNavigation = (destination) => {
-      if (currentUser?.role === 'learner') {
-          if (['profile', 'wishlist', 'my-learnings', 'support'].includes(destination)) {
-              setLearnerView(destination);
-          }
-      } else if (currentUser?.role === 'tutor') {
-           // If accessing a tutor specific view, ensure we are in tutor mode (though logic handles this)
-           if (destination === 'courses') setTeacherView('courses');
-           if (destination === 'support') setTeacherView('support'); // Add support view to TutorView logic
-           if (destination === 'profile') {
-                // Tutors don't have a dedicated "Profile View" in this simplified app, 
-                // so we could either show a modal or just navigate to dashboard for now.
-                // Or better, let's create a "profile" tab in TutorView.
-                setTeacherView('profile'); // Let's try to add a profile tab to TutorView
-           }
-      } else if (currentUser?.role === 'admin') {
-           if (destination === 'dashboard') {
-               // adminView state is local to AdminView currently. 
-               // For a robust app, we'd lift it, but for now Profile dropdown for admin is minimal.
-           }
-      }
+  const handleStudentPaymentSuccess = () => {
+      alert("Payment Successful! You have been enrolled in the selected courses.");
+      setCart([]);
+      setShowStudentPayment(false);
+      setLearnerView('home');
   };
 
   // Teacher Handlers
@@ -1385,6 +781,7 @@ export default function App() {
       alert("Success! Your course is now promoted and will appear at the top of search results.");
   };
 
+  // Define Sub-components for LearnerView inside App scope or within LearnerView to ensure access to state/props
   const Hero = () => (
       <div className="relative bg-gray-900 overflow-hidden rounded-b-[2rem] md:rounded-b-[3rem] shadow-2xl mb-8 md:mb-12 -mx-4 md:-mx-8 lg:-mx-12 xl:-mx-20 px-4 md:px-8 lg:px-12 xl:px-20 pt-10 pb-20 md:pt-16 md:pb-32">
           <div className="absolute top-[-50%] left-[-20%] w-[80%] h-[150%] bg-gradient-to-br from-orange-600/30 to-purple-600/30 rounded-full blur-[100px] pointer-events-none"></div>
@@ -1417,7 +814,7 @@ export default function App() {
             </div>
             <div className="flex gap-2">
                <div className="hidden md:block relative min-w-[140px]">
-                  <MapIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <select 
                     value={selectedMode} 
                     onChange={(e) => setSelectedMode(e.target.value)}
@@ -1470,213 +867,89 @@ export default function App() {
   );
 
   const LoginView = () => {
-      // ... (Keep existing login view logic)
       const [isRegistering, setIsRegistering] = useState(false);
-      const [step, setStep] = useState(1); 
-      
+      const [showPayment, setShowPayment] = useState(false);
       const [email, setEmail] = useState('');
       const [password, setPassword] = useState('');
       const [name, setName] = useState('');
       const [phone, setPhone] = useState('');
-      
-      const [role, setRole] = useState('learner'); 
       const [subject, setSubject] = useState('');
-      const [socialLinks, setSocialLinks] = useState({ linkedin: '', website: '' });
-      const [areaOfInterest, setAreaOfInterest] = useState('');
-      
+      const [role, setRole] = useState('student');
       const [isTeam, setIsTeam] = useState(false);
       const [teamName, setTeamName] = useState('');
       const [teamSize, setTeamSize] = useState('');
-
+  
       const handleSubmit = (e) => {
-        if (e) e.preventDefault();
+        e.preventDefault();
         if (isRegistering) {
-            handleRegister({ 
-                name, email, phone, role, 
-                subject: role === 'tutor' ? subject : null,
-                socialLinks: role === 'tutor' ? socialLinks : null,
-                areaOfInterest: role === 'learner' ? areaOfInterest : null,
-                isVerified: role === 'tutor', 
-                teamName: (role === 'learner' && isTeam) ? teamName : null, 
-                teamSize: (role === 'learner' && isTeam) ? teamSize : null 
-            });
-        } else {
-            if(email && password) {
-                let detectedRole = 'learner';
-                let detectedName = 'Arjun Mehta';
-
-                if (email.toLowerCase().includes('admin')) {
-                    detectedRole = 'admin';
-                    detectedName = 'Administrator';
-                } else {
-                    const foundTutor = teachers.find(t => t.email.toLowerCase() === email.toLowerCase());
-                    if (foundTutor) {
-                        detectedRole = 'tutor';
-                        detectedName = foundTutor.name;
-                    } else if (email.toLowerCase().includes('tutor') || email.toLowerCase().includes('teacher')) {
-                        detectedRole = 'tutor';
-                        detectedName = 'Demo Tutor';
-                    }
-                }
-                
-                handleLogin(detectedRole, email, detectedName);
+            if (role === 'teacher' && !showPayment) {
+                 if(email && password && name && phone && subject) setShowPayment(true);
+                 else alert("Please fill all details before proceeding.");
+                 return;
             }
+            if(email && password && name) {
+               handleRegister({ name, email, phone, subject, role, isVerified: role === 'teacher', teamName: (role === 'student' && isTeam) ? teamName : null, teamSize: (role === 'student' && isTeam) ? teamSize : null });
+            }
+        } else {
+            if(email && password) handleLogin(role, email);
         }
       };
   
       const toggleMode = () => {
           setIsRegistering(!isRegistering);
-          setStep(1); 
-          if (!isRegistering) {
-             setRole('learner'); 
-             setEmail(''); setPassword(''); setName(''); setPhone(''); 
-             setSubject(''); setSocialLinks({ linkedin: '', website: '' });
-             setAreaOfInterest(''); setIsTeam(false); setTeamName(''); setTeamSize('');
-          }
+          if (!isRegistering && role === 'admin') setRole('student');
+          setEmail(''); setPassword(''); setName(''); setPhone(''); setSubject('');
+          setShowPayment(false); setIsTeam(false); setTeamName(''); setTeamSize('');
       };
-
-      const nextStep = () => {
-          if (step === 1) {
-              if (!name || !email || !password || !phone) {
-                  alert("Please fill in all basic details.");
-                  return;
-              }
-          }
-          if (step === 2) {
-              if (role === 'tutor' && !subject) {
-                   alert("Please enter your main subject.");
-                   return;
-              }
-              if (role === 'learner' && !areaOfInterest) {
-                  alert("Please select an area of interest.");
-                  return;
-              }
-          }
-          setStep(step + 1);
-      };
-
-      const prevStep = () => setStep(step - 1);
   
       return (
         <div className="flex items-center justify-center min-h-[calc(100vh-140px)] py-8 px-4 sm:px-6 lg:px-8 animate-in fade-in duration-500">
-          <div className="max-w-lg w-full space-y-8 bg-white p-8 rounded-2xl shadow-xl border border-gray-100 relative overflow-hidden">
-            
-            {isRegistering && (
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gray-100">
-                    <div className={`h-full bg-orange-600 transition-all duration-500 ease-out`} style={{ width: `${(step / 3) * 100}%` }}></div>
-                </div>
-            )}
-
+          <div className="max-w-lg w-full space-y-8 bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
             <div className="text-center">
-              <div className={`mx-auto h-12 w-12 rounded-full flex items-center justify-center mb-4 ${isRegistering ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600'}`}>{isRegistering ? <UserPlus className="h-6 w-6" /> : <LogIn className="h-6 w-6" />}</div>
-              <h2 className="mt-2 text-3xl font-extrabold text-gray-900">{isRegistering ? "Create Account" : "Welcome Back"}</h2>
-              <p className="mt-2 text-sm text-gray-600">{isRegistering ? `Step ${step} of 3: ${step === 1 ? 'Basic Info' : step === 2 ? 'Role & Profile' : 'Verification'}` : "Sign in with your email and password."}</p>
+              <div className={`mx-auto h-12 w-12 rounded-full flex items-center justify-center mb-4 ${isRegistering ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600'}`}>{isRegistering ? <UserPlus className="h-6 w-6" /> : <LogIn className="h-6 w-6" />}</div>
+              <h2 className="mt-2 text-3xl font-extrabold text-gray-900">{isRegistering ? (showPayment ? "Complete Payment" : "Create an Account") : "Welcome Back"}</h2>
+              <p className="mt-2 text-sm text-gray-600">{isRegistering ? (showPayment ? "Select a payment method to verify your account." : "Join our community of learners and educators.") : "Sign in to access your dashboard."}</p>
             </div>
             
-            {!isRegistering ? (
-                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                    <div className="space-y-4">
-                        <div><label className="block text-sm font-medium text-gray-700 mb-1">Email address</label><input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="appearance-none block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="name@example.com" /></div>
-                        <div><label className="block text-sm font-medium text-gray-700 mb-1">Password</label><input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="appearance-none block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="••••••••" /></div>
-                    </div>
-                    <button type="submit" className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-md transition-colors">Sign In</button>
-                    <div className="text-center"><button type="button" onClick={toggleMode} className="text-sm font-medium text-gray-600 hover:text-gray-900 hover:underline">Don't have an account? Create one</button></div>
-                    <div className="flex flex-col items-center justify-center space-y-2 pt-4 border-t border-gray-100"><div className="text-xs text-gray-400 uppercase font-bold tracking-wider">Quick Demos</div><div className="flex flex-wrap gap-2 justify-center text-xs"><button type="button" onClick={() => { setEmail('arjun.m@example.com'); setPassword('password'); }} className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 font-medium">Learner</button><button type="button" onClick={() => { setEmail('rk.verma@example.com'); setPassword('password'); }} className="px-3 py-1 bg-orange-50 text-orange-600 rounded-full hover:bg-orange-100 font-medium">Tutor</button><button type="button" onClick={() => { setEmail('admin@example.com'); setPassword('password'); }} className="px-3 py-1 bg-purple-50 text-purple-600 rounded-full hover:bg-purple-100 font-medium">Admin</button></div></div>
-                </form>
+            {showPayment ? (
+                <PaymentGateway amount={500} title="Teacher Registration Fee" description={<span className="font-bold">One-time Payment: Pay once and publish unlimited courses forever!</span>} onSuccess={handleSubmit} onCancel={() => setShowPayment(false)} />
             ) : (
-                <div className="mt-8">
-                    {step === 1 && (
-                        <div className="space-y-4 animate-in slide-in-from-right-4 duration-300">
-                             <div><label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full px-3 py-3 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-lg focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="e.g. Aditi Rao" /></div>
-                             <div><label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="appearance-none block w-full px-3 py-3 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-lg focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="name@example.com" /></div>
-                             <div><label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label><input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="appearance-none block w-full px-3 py-3 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-lg focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="+91 98765 43210" /></div>
-                             <div><label className="block text-sm font-medium text-gray-700 mb-1">Create Password</label><input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="appearance-none block w-full px-3 py-3 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-lg focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="••••••••" /></div>
-                             <button onClick={nextStep} className="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-lg text-white bg-orange-600 hover:bg-orange-700 shadow-md transition-colors mt-6">Next: Role & Profile</button>
-                             <div className="text-center mt-4"><button type="button" onClick={toggleMode} className="text-sm font-medium text-gray-600 hover:text-gray-900 hover:underline">Already have an account? Sign in</button></div>
-                        </div>
-                    )}
-
-                    {step === 2 && (
-                        <div className="space-y-6 animate-in slide-in-from-right-4 duration-300">
-                            <div>
-                                <label className="block text-sm font-bold text-gray-700 mb-3 text-center">I want to join as a...</label>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div onClick={() => setRole('learner')} className={`cursor-pointer rounded-xl border-2 p-4 text-center transition-all ${role === 'learner' ? 'border-orange-500 bg-orange-50' : 'border-gray-200 hover:border-orange-200'}`}>
-                                        <div className={`mx-auto h-10 w-10 rounded-full flex items-center justify-center mb-2 ${role === 'learner' ? 'bg-orange-200 text-orange-700' : 'bg-gray-100 text-gray-500'}`}><GraduationCap className="h-5 w-5" /></div>
-                                        <div className={`text-sm font-bold ${role === 'learner' ? 'text-orange-800' : 'text-gray-600'}`}>Learner</div>
-                                    </div>
-                                    <div onClick={() => setRole('tutor')} className={`cursor-pointer rounded-xl border-2 p-4 text-center transition-all ${role === 'tutor' ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-blue-200'}`}>
-                                        <div className={`mx-auto h-10 w-10 rounded-full flex items-center justify-center mb-2 ${role === 'tutor' ? 'bg-blue-200 text-blue-700' : 'bg-gray-100 text-gray-500'}`}><Users className="h-5 w-5" /></div>
-                                        <div className={`text-sm font-bold ${role === 'tutor' ? 'text-blue-800' : 'text-gray-600'}`}>Tutor</div>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* ... Role specific fields ... */}
-                             {role === 'tutor' && (
-                                <div className="space-y-4 bg-blue-50/50 p-4 rounded-xl border border-blue-100">
-                                    <h4 className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-2">Tutor Details</h4>
-                                    <div><label className="block text-xs font-medium text-gray-600 mb-1">Main Subject</label><input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} className="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500" placeholder="e.g. Mathematics, Piano" /></div>
-                                    <div><label className="block text-xs font-medium text-gray-600 mb-1">LinkedIn Profile (Optional)</label><div className="flex"><span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-xs">linkedin.com/in/</span><input type="text" value={socialLinks.linkedin} onChange={(e) => setSocialLinks({...socialLinks, linkedin: e.target.value})} className="flex-1 block w-full px-3 py-2 border border-gray-300 rounded-r-lg text-sm focus:ring-blue-500 focus:border-blue-500" placeholder="username" /></div></div>
-                                    <div><label className="block text-xs font-medium text-gray-600 mb-1">Website / Portfolio (Optional)</label><input type="text" value={socialLinks.website} onChange={(e) => setSocialLinks({...socialLinks, website: e.target.value})} className="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500" placeholder="https://..." /></div>
+                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                <div className="rounded-md shadow-sm -space-y-px">
+                    <div className="flex rounded-md bg-gray-100 p-1 mb-6">
+                    <button type="button" onClick={() => { setRole('student'); setIsTeam(false); }} className={`flex-1 py-2 text-xs md:text-sm font-medium rounded-md transition-all ${role === 'student' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}>Student</button>
+                    <button type="button" onClick={() => setRole('teacher')} className={`flex-1 py-2 text-xs md:text-sm font-medium rounded-md transition-all ${role === 'teacher' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}>Teacher</button>
+                    {!isRegistering && (<button type="button" onClick={() => setRole('admin')} className={`flex-1 py-2 text-xs md:text-sm font-medium rounded-md transition-all ${role === 'admin' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}>Admin</button>)}
+                    </div>
+    
+                    <div className="space-y-4">
+                    {isRegistering && (
+                        <div className="animate-in slide-in-from-top-2 duration-300 space-y-4">
+                            <div><label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label><input type="text" required={isRegistering} value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder={role === 'student' && isTeam ? "Team Leader Name" : "e.g. Aditi Rao"} /></div>
+                            <div><label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label><input type="tel" required={isRegistering} value={phone} onChange={(e) => setPhone(e.target.value)} className="appearance-none block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="+91 98765 43210" /></div>
+                            {role === 'teacher' && (<div><label className="block text-sm font-medium text-gray-700 mb-1">Main Subject</label><input type="text" required={role === 'teacher'} value={subject} onChange={(e) => setSubject(e.target.value)} className="appearance-none block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="e.g. Physics, Piano, French" /></div>)}
+                            {role === 'student' && (
+                                <div className="pt-1">
+                                    <div className="flex items-center gap-2 mb-3"><div className="relative flex items-center"><input id="isTeam" type="checkbox" checked={isTeam} onChange={(e) => setIsTeam(e.target.checked)} className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500" /></div><label htmlFor="isTeam" className="text-sm font-medium text-gray-700 select-none cursor-pointer flex items-center gap-1"><UsersIcon className="w-4 h-4 text-gray-500" /> Register as a Team?</label></div>
+                                    {isTeam && (
+                                        <div className="grid grid-cols-2 gap-4 animate-in slide-in-from-top-2 duration-200 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                            <div className="col-span-2"><label className="block text-xs font-bold text-gray-500 uppercase mb-1">Team Name</label><input type="text" value={teamName} onChange={(e) => setTeamName(e.target.value)} className="appearance-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-lg focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="e.g. The Study Squad" /></div>
+                                            <div className="col-span-2"><label className="block text-xs font-bold text-gray-500 uppercase mb-1">No. of Users</label><input type="number" min="2" max="50" value={teamSize} onChange={(e) => setTeamSize(e.target.value)} className="appearance-none block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-lg focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="e.g. 5" /></div>
+                                            {/* Removed Team Logo upload */}
+                                        </div>
+                                    )}
                                 </div>
                             )}
-
-                            {role === 'learner' && (
-                                <div className="space-y-4 bg-orange-50/50 p-4 rounded-xl border border-orange-100">
-                                    <h4 className="text-xs font-bold text-orange-600 uppercase tracking-wider mb-2">Learner Preferences</h4>
-                                    <div>
-                                        <label className="block text-xs font-medium text-gray-600 mb-1">Primary Area of Interest</label>
-                                        <select value={areaOfInterest} onChange={(e) => setAreaOfInterest(e.target.value)} className="block w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white">
-                                            <option value="">Select a Category</option>
-                                            {CATEGORIES.filter(c => c.name !== 'All').map(c => <option key={c.name} value={c.name}>{c.name}</option>)}
-                                        </select>
-                                    </div>
-                                    <div className="flex items-center gap-2 pt-2">
-                                        <input id="isTeam" type="checkbox" checked={isTeam} onChange={(e) => setIsTeam(e.target.checked)} className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500" />
-                                        <label htmlFor="isTeam" className="text-sm font-medium text-gray-700 cursor-pointer">Registering as a Team / Group?</label>
-                                    </div>
-                                </div>
-                            )}
-                            <div className="flex gap-3 mt-6">
-                                <button onClick={prevStep} className="flex-1 py-3 px-4 border border-gray-300 text-sm font-bold rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">Back</button>
-                                <button onClick={nextStep} className="flex-1 py-3 px-4 border border-transparent text-sm font-bold rounded-lg text-white bg-orange-600 hover:bg-orange-700 shadow-md transition-colors">Next</button>
-                            </div>
                         </div>
                     )}
-
-                    {step === 3 && (
-                        <div className="animate-in slide-in-from-right-4 duration-300">
-                             {role === 'tutor' ? (
-                                 <PaymentGateway 
-                                    amount={500} 
-                                    title="Tutor Verification Fee" 
-                                    description="One-time fee to list unlimited courses." 
-                                    onSuccess={handleSubmit} 
-                                    onCancel={prevStep} 
-                                 />
-                             ) : (
-                                 <div className="space-y-6">
-                                     {/* ... Summary View ... */}
-                                     <div className="text-center py-6">
-                                         <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center text-green-600 mb-4 animate-in zoom-in"><CheckCircle className="w-8 h-8" /></div>
-                                         <h3 className="text-xl font-bold text-gray-900">Almost There!</h3>
-                                         <p className="text-gray-500 text-sm mt-2">Review your details and complete registration.</p>
-                                     </div>
-                                      <div className="space-y-3 text-sm bg-gray-50 p-4 rounded-xl border border-gray-200">
-                                         <div className="flex justify-between"><span className="text-gray-500">Name</span><span className="font-medium text-gray-900">{name}</span></div>
-                                         <div className="flex justify-between"><span className="text-gray-500">Email</span><span className="font-medium text-gray-900">{email}</span></div>
-                                         <div className="flex justify-between"><span className="text-gray-500">Role</span><span className="font-medium text-orange-600 capitalize">{role}</span></div>
-                                         {role === 'learner' && areaOfInterest && <div className="flex justify-between"><span className="text-gray-500">Interest</span><span className="font-medium text-gray-900">{areaOfInterest}</span></div>}
-                                     </div>
-                                     <div className="flex gap-3">
-                                        <button onClick={prevStep} className="flex-1 py-3 px-4 border border-gray-300 text-sm font-bold rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">Back</button>
-                                        <button onClick={handleSubmit} className="flex-[2] py-3 px-4 border border-transparent text-sm font-bold rounded-lg text-white bg-green-600 hover:bg-green-700 shadow-md transition-colors">Complete Registration</button>
-                                     </div>
-                                 </div>
-                             )}
-                        </div>
-                    )}
+                    <div><label className="block text-sm font-medium text-gray-700 mb-1">Email address</label><input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="appearance-none block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="name@example.com" /></div>
+                    <div><label className="block text-sm font-medium text-gray-700 mb-1">Password</label><input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="appearance-none block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="••••••••" /></div>
+                    </div>
                 </div>
+                <div><button type="submit" className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white ${isRegistering ? 'bg-orange-600 hover:bg-orange-700 focus:ring-orange-500' : 'bg-orange-600 hover:bg-orange-700 focus:ring-orange-500'} focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-md transition-colors`}>{isRegistering ? (role === 'teacher' ? "Proceed to Payment (₹500)" : "Create Account") : "Sign In"}</button></div>
+                <div className="text-center"><button type="button" onClick={toggleMode} className="text-sm font-medium text-gray-600 hover:text-gray-900 hover:underline">{isRegistering ? "Already have an account? Sign in" : "Don't have an account? Create one"}</button></div>
+                {!isRegistering && (<div className="flex flex-col items-center justify-center space-y-2 pt-4 border-t border-gray-100"><div className="text-xs text-gray-400 uppercase font-bold tracking-wider">Quick Demos (Login Only)</div><div className="flex flex-wrap gap-2 justify-center text-xs"><button type="button" onClick={() => { setEmail('arjun.m@example.com'); setPassword('password'); setRole('student'); }} className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 font-medium">Student</button><button type="button" onClick={() => { setEmail('rk.verma@example.com'); setPassword('password'); setRole('teacher'); }} className="px-3 py-1 bg-orange-50 text-orange-600 rounded-full hover:bg-orange-100 font-medium">Teacher</button><button type="button" onClick={() => { setEmail('admin@example.com'); setPassword('password'); setRole('admin'); }} className="px-3 py-1 bg-purple-50 text-purple-600 rounded-full hover:bg-purple-100 font-medium">Admin</button></div></div>)}
+                </form>
             )}
           </div>
         </div>
@@ -1698,8 +971,6 @@ export default function App() {
 
     const CourseCard = ({ course, isMobileSnap = false }) => {
       const isInCart = cart.some(c => c.id === course.id);
-      const isWishlisted = wishlist.some(c => c.id === course.id);
-
       return (
       <div className={`bg-white rounded-[1.5rem] border border-gray-100 overflow-hidden hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] transition-all duration-300 group flex flex-col h-full ${isMobileSnap ? 'min-w-[280px] md:min-w-0 snap-center' : ''} ${course.isPromoted ? 'ring-2 ring-purple-100' : ''}`}>
         <div className="h-40 md:h-48 relative cursor-pointer" onClick={() => navigateToCourse(course)}>
@@ -1710,19 +981,7 @@ export default function App() {
                   <div className="bg-purple-100/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm text-purple-700"><Zap className="w-3 h-3 fill-purple-700" /><span className="text-[10px] font-bold">Recommended</span></div>
               )}
           </div>
-          <div className="absolute top-4 right-4 z-10 flex flex-col items-end gap-2">
-              <ModeBadge mode={course.mode} />
-               <button 
-                  onClick={(e) => {
-                    e.stopPropagation(); 
-                    if (isWishlisted) handleRemoveFromWishlist(course.id);
-                    else handleAddToWishlist(course);
-                  }} 
-                  className={`p-1.5 rounded-full transition-all ${isWishlisted ? 'bg-red-50 text-red-500' : 'bg-white/50 text-white hover:bg-white hover:text-red-500'}`}
-                >
-                   <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-current' : ''}`} />
-                </button>
-          </div>
+          <div className="absolute top-4 right-4 z-10"><ModeBadge mode={course.mode} /></div>
           <div className="absolute -bottom-6 left-6 z-20"><div className="w-12 h-12 rounded-full border-4 border-white bg-gray-200 flex items-center justify-center text-gray-500 font-bold shadow-md">{course.teacherName.charAt(0)}</div></div>
         </div>
         <div className="pt-8 p-5 md:p-6 flex-grow flex flex-col">
@@ -1778,7 +1037,6 @@ export default function App() {
     }
 
     if (learnerView === 'browse') {
-       // ... (Keep existing browse logic)
       const currentCourses = filteredCourses.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
       const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
       useEffect(() => { setCurrentPage(1); }, [searchQuery, selectedCategory, selectedMode]);
@@ -1797,172 +1055,13 @@ export default function App() {
       );
     }
 
-    if (learnerView === 'findTutors') {
-        return (
-          <>
-            <FindTutors teachers={teachers} onContact={(tutor) => { setSelectedCourse({ teacherId: tutor.id, title: "General Enquiry" }); setModalType('enquire'); setIsModalOpen(true); }} />
-            <MobileBottomNav />
-          </>
-        );
-    }
-    
-    // Wishlist View
-    if (learnerView === 'wishlist') {
-        return (
-             <div className="animate-in fade-in duration-300 pb-20 md:pb-0 max-w-5xl mx-auto">
-                <div className="flex items-center gap-2 mb-6 text-sm text-gray-500"><span className="cursor-pointer hover:text-orange-600" onClick={() => setLearnerView('home')}>Home</span><ChevronRight className="w-4 h-4" /><span className="font-medium text-gray-900">Wishlist</span></div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-6">My Wishlist ({wishlist.length})</h1>
-                {wishlist.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {wishlist.map(course => (
-                            <div key={course.id} className="relative">
-                                <CourseCard course={course} />
-                                <button 
-                                    onClick={() => handleRemoveFromWishlist(course.id)} 
-                                    className="absolute top-4 right-4 bg-white p-1.5 rounded-full shadow-sm text-red-500 z-20 hover:bg-gray-100"
-                                >
-                                    <X className="w-4 h-4" />
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="text-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
-                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-red-300"><Heart className="w-8 h-8" /></div>
-                        <h3 className="text-lg font-bold text-gray-900 mb-2">Your wishlist is empty</h3>
-                        <p className="text-gray-500 mb-6">Save courses you're interested in for later.</p>
-                        <button onClick={() => setLearnerView('browse')} className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2.5 px-6 rounded-lg transition-colors">Browse Courses</button>
-                    </div>
-                )}
-                <MobileBottomNav />
-             </div>
-        );
-    }
-
-    // My Learnings View
-    if (learnerView === 'my-learnings') {
-        return (
-             <div className="animate-in fade-in duration-300 pb-20 md:pb-0 max-w-5xl mx-auto">
-                <div className="flex items-center gap-2 mb-6 text-sm text-gray-500"><span className="cursor-pointer hover:text-orange-600" onClick={() => setLearnerView('home')}>Home</span><ChevronRight className="w-4 h-4" /><span className="font-medium text-gray-900">My Learnings</span></div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-6">Enrolled Courses ({myLearnings.length})</h1>
-                 {myLearnings.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {myLearnings.map(course => (
-                           <div key={course.id} className="bg-white p-5 rounded-2xl border border-gray-200 flex flex-col md:flex-row gap-5 hover:shadow-lg transition-all">
-                                <div className={`w-full md:w-32 h-32 rounded-xl bg-gradient-to-br ${getGradient(course.category)} shrink-0`}></div>
-                                <div className="flex-grow">
-                                    <h3 className="font-bold text-lg text-gray-900 mb-1">{course.title}</h3>
-                                    <p className="text-sm text-gray-500 mb-3">{course.teacherName}</p>
-                                    <div className="w-full bg-gray-100 rounded-full h-2 mb-2">
-                                        <div className="bg-green-500 h-2 rounded-full" style={{ width: '0%' }}></div>
-                                    </div>
-                                    <p className="text-xs text-gray-400 font-medium mb-4">0% Completed</p>
-                                    <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">Start Learning</button>
-                                </div>
-                           </div>
-                        ))}
-                    </div>
-                 ) : (
-                    <div className="text-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
-                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-blue-300"><BookOpen className="w-8 h-8" /></div>
-                        <h3 className="text-lg font-bold text-gray-900 mb-2">No enrollments yet</h3>
-                        <p className="text-gray-500 mb-6">Start your learning journey today.</p>
-                        <button onClick={() => setLearnerView('browse')} className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2.5 px-6 rounded-lg transition-colors">Explore Courses</button>
-                    </div>
-                 )}
-                 <MobileBottomNav />
-             </div>
-        );
-    }
-    
-    // Support View (Simple Placeholder)
-    if (learnerView === 'support') {
-        return (
-            <div className="max-w-2xl mx-auto py-12 px-4 animate-in fade-in">
-                 <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">How can we help you?</h1>
-                 <p className="text-gray-500 text-center mb-12">Search for help or contact our support team.</p>
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-                     <div className="p-6 bg-white border border-gray-200 rounded-2xl hover:shadow-md transition-all cursor-pointer">
-                         <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-4"><FileText /></div>
-                         <h3 className="font-bold text-gray-900 mb-2">Knowledge Base</h3>
-                         <p className="text-sm text-gray-500">Guides and FAQs for students and tutors.</p>
-                     </div>
-                     <div className="p-6 bg-white border border-gray-200 rounded-2xl hover:shadow-md transition-all cursor-pointer">
-                         <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 mb-4"><MessageSquare /></div>
-                         <h3 className="font-bold text-gray-900 mb-2">Chat Support</h3>
-                         <p className="text-sm text-gray-500">Live chat with our support team.</p>
-                     </div>
-                 </div>
-                 <div className="bg-gray-50 p-8 rounded-2xl border border-gray-200">
-                     <h3 className="font-bold text-gray-900 mb-4">Send us a message</h3>
-                     <div className="space-y-4">
-                         <input className="w-full p-3 rounded-lg border border-gray-200 text-sm outline-none focus:border-blue-500" placeholder="Subject" />
-                         <textarea className="w-full p-3 rounded-lg border border-gray-200 text-sm outline-none focus:border-blue-500" rows="4" placeholder="Describe your issue..." />
-                         <button onClick={() => { alert("Message sent!"); setLearnerView('home'); }} className="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors">Submit Ticket</button>
-                     </div>
-                 </div>
-                 <MobileBottomNav />
-            </div>
-        );
-    }
-
     if (learnerView === 'cart') {
-      // ... (Keep existing Cart Logic)
       const totalAmount = calculateTotal();
-
-      // Show Success Screen if payment done
-      if (showOrderSuccess && lastOrder) {
-        return (
-            <div className="max-w-xl mx-auto pt-10 text-center animate-in zoom-in duration-300 px-4">
-                {/* ... Success UI ... */}
-                <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
-                    <CheckCircle className="w-12 h-12 text-green-600" />
-                </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">Payment Successful!</h2>
-                <p className="text-gray-500 mb-8">Thank you for your purchase. A confirmation email with the invoice has been sent to <span className="font-medium text-gray-900">{lastOrder.customerEmail}</span>.</p>
-                
-                <div className="bg-white rounded-xl border border-gray-200 p-6 text-left mb-8 shadow-sm">
-                    <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-100">
-                        <div>
-                            <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Order ID</p>
-                            <p className="font-mono font-bold text-gray-900 text-lg">#{lastOrder.id}</p>
-                        </div>
-                         <div className="text-right">
-                            <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Date</p>
-                            <p className="font-medium text-gray-900">{lastOrder.date}</p>
-                        </div>
-                    </div>
-                    <div className="space-y-3 mb-4">
-                        {lastOrder.items.map((item, idx) => (
-                            <div key={idx} className="flex justify-between text-sm items-center">
-                                <span className="text-gray-700 truncate pr-4">{item.title}</span>
-                                <span className="font-medium text-gray-900 whitespace-nowrap">{item.price}</span>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="pt-4 border-t border-gray-100 flex justify-between items-center bg-gray-50 -mx-6 -mb-6 px-6 py-4 rounded-b-xl mt-4">
-                        <span className="font-bold text-gray-900">Total Paid</span>
-                        <span className="font-bold text-xl text-green-600">₹{lastOrder.total}</span>
-                    </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button onClick={() => downloadInvoice(lastOrder)} className="flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-300 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors shadow-sm">
-                        <Download className="w-4 h-4" /> Download Invoice
-                    </button>
-                    <button onClick={() => { setShowOrderSuccess(false); setLearnerView('home'); }} className="flex items-center justify-center gap-2 px-6 py-3 bg-orange-600 text-white font-bold rounded-xl hover:bg-orange-700 shadow-lg shadow-orange-200 transition-colors">
-                        Continue Learning
-                    </button>
-                </div>
-            </div>
-        )
-      }
-
-      if (showLearnerPayment) {
+      if (showStudentPayment) {
           return (
               <div className="max-w-xl mx-auto pt-8">
-                  <div className="mb-4"><button onClick={() => setShowLearnerPayment(false)} className="flex items-center text-sm text-gray-500 hover:text-gray-900"><ChevronLeft className="w-4 h-4 mr-1" /> Back to Cart</button></div>
-                  <PaymentGateway amount={totalAmount} title="Course Enrollment" description={<span className="font-medium">Total for {cart.length} courses</span>} onSuccess={handleLearnerPaymentSuccess} onCancel={() => setShowLearnerPayment(false)} />
+                  <div className="mb-4"><button onClick={() => setShowStudentPayment(false)} className="flex items-center text-sm text-gray-500 hover:text-gray-900"><ChevronLeft className="w-4 h-4 mr-1" /> Back to Cart</button></div>
+                  <PaymentGateway amount={totalAmount} title="Course Enrollment" description={<span className="font-medium">Total for {cart.length} courses</span>} onSuccess={handleStudentPaymentSuccess} onCancel={() => setShowStudentPayment(false)} />
               </div>
           );
       }
@@ -1973,18 +1072,12 @@ export default function App() {
            {cart.length > 0 ? (
                <div className="flex flex-col lg:flex-row gap-8">
                    <div className="flex-grow space-y-4">{cart.map(item => (<div key={item.id} className="bg-white p-4 rounded-xl border border-gray-200 flex flex-col sm:flex-row gap-4 relative"><div className="w-full sm:w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center text-2xl font-bold text-gray-400">{item.title.charAt(0)}</div><div className="flex-grow"><div className="flex justify-between items-start"><div><h3 className="font-bold text-gray-900">{item.title}</h3><p className="text-sm text-gray-500">{item.teacherName}</p></div><button onClick={() => handleRemoveFromCart(item.id)} className="text-gray-400 hover:text-red-500 p-1"><X className="w-5 h-5" /></button></div><div className="mt-2 flex items-center gap-2 text-xs text-gray-500"><span className="bg-gray-100 px-2 py-1 rounded">{item.mode}</span><span>{item.duration}</span></div><div className="mt-3 font-bold text-gray-900 text-lg">{item.price}</div></div></div>))}</div>
-                   <div className="w-full lg:w-80 shrink-0"><div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm sticky top-24"><h3 className="font-bold text-gray-900 mb-4">Order Summary</h3><div className="space-y-3 mb-6 border-b border-gray-100 pb-6"><div className="flex justify-between text-sm text-gray-600"><span>Subtotal</span><span>₹{totalAmount}</span></div><div className="flex justify-between text-sm text-gray-600"><span>Platform Fee</span><span>₹0</span></div></div><div className="flex justify-between font-bold text-xl text-gray-900 mb-6"><span>Total</span><span>₹{totalAmount}</span></div><button onClick={() => { if (!isLoggedIn) { alert("Please login to proceed to checkout."); setRedirectAfterLogin('cart'); setActiveRole('login'); } else { handleLearnerCheckout(); } }} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2">Proceed to Checkout <ArrowRight className="w-4 h-4" /></button></div></div>
+                   <div className="w-full lg:w-80 shrink-0"><div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm sticky top-24"><h3 className="font-bold text-gray-900 mb-4">Order Summary</h3><div className="space-y-3 mb-6 border-b border-gray-100 pb-6"><div className="flex justify-between text-sm text-gray-600"><span>Subtotal</span><span>₹{totalAmount}</span></div><div className="flex justify-between text-sm text-gray-600"><span>Platform Fee</span><span>₹0</span></div></div><div className="flex justify-between font-bold text-xl text-gray-900 mb-6"><span>Total</span><span>₹{totalAmount}</span></div><button onClick={() => { if (!isLoggedIn) { alert("Please login to proceed to checkout."); setRedirectAfterLogin('cart'); setActiveRole('login'); } else { handleStudentCheckout(); } }} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2">Proceed to Checkout <ArrowRight className="w-4 h-4" /></button></div></div>
                </div>
            ) : (<div className="text-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200"><div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-gray-400"><ShoppingCart className="w-8 h-8" /></div><h3 className="text-lg font-bold text-gray-900 mb-2">Your cart is empty</h3><p className="text-gray-500 mb-6">Looks like you haven't added any courses yet.</p><button onClick={() => setLearnerView('browse')} className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2.5 px-6 rounded-lg transition-colors">Start Browsing</button></div>)}
            <MobileBottomNav />
         </div>
       );
-    }
-    
-    if (learnerView === 'pricing') {
-        return (
-            <Pricing onContact={() => { alert("Thank you for your interest! Our sales team will contact you shortly."); }} />
-        );
     }
 
     if (learnerView === 'detail' && selectedCourse) {
@@ -1995,17 +1088,14 @@ export default function App() {
     
     if (learnerView === 'profile') {
         return (
-            <>
-                <ProfileSettings user={currentUser} onSave={handleUpdateProfile} onLogout={handleLogout} />
-                <MobileBottomNav />
-            </>
+            <div className="flex items-center justify-center h-[60vh] text-center"><div><User className="w-16 h-16 mx-auto text-gray-300 mb-4" /><h2 className="text-xl font-bold text-gray-900">My Profile</h2><p className="text-gray-500 mb-6">Manage your account and settings.</p><button onClick={handleLogout} className="text-red-600 font-medium hover:underline">Log Out</button></div><MobileBottomNav /></div>
         )
     }
     return null;
   };
 
-  const TutorView = ({ currentView, setView }) => {
-    // const [teacherView, setTeacherView] = useState('dashboard'); <-- MOVED TO APP
+  const TeacherView = () => {
+    const [teacherView, setTeacherView] = useState('dashboard');
     const [previewCourse, setPreviewCourse] = useState(null);
     const myCourses = courses.filter(c => c.teacherId === 101);
     const myLeads = enquiries.filter(e => myCourses.some(c => c.id === e.courseId));
@@ -2017,14 +1107,8 @@ export default function App() {
 
     const TeacherTabs = () => (
        <div className="flex overflow-x-auto space-x-1 bg-gray-100/50 p-1 rounded-xl mb-6 scrollbar-hide">
-         {[
-            { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard }, 
-            { id: 'courses', label: 'My Courses', icon: BookOpen }, 
-            { id: 'enquiries', label: 'Enquiries', icon: MessageSquare },
-            { id: 'profile', label: 'Profile', icon: User },
-            { id: 'support', label: 'Support', icon: HelpCircle }
-         ].map(tab => (
-           <button key={tab.id} onClick={() => setView(tab.id)} className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${currentView === tab.id ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}><tab.icon className="w-4 h-4" />{tab.label}{tab.id === 'enquiries' && myLeads.length > 0 && (<span className="ml-1 bg-red-100 text-red-600 text-xs px-1.5 py-0.5 rounded-full">{myLeads.length}</span>)}</button>
+         {[{ id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard }, { id: 'courses', label: 'My Courses', icon: BookOpen }, { id: 'enquiries', label: 'Enquiries', icon: MessageSquare }].map(tab => (
+           <button key={tab.id} onClick={() => setTeacherView(tab.id)} className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${teacherView === tab.id ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}><tab.icon className="w-4 h-4" />{tab.label}{tab.id === 'enquiries' && myLeads.length > 0 && (<span className="ml-1 bg-red-100 text-red-600 text-xs px-1.5 py-0.5 rounded-full">{myLeads.length}</span>)}</button>
          ))}
        </div>
     );
@@ -2033,17 +1117,17 @@ export default function App() {
       <div className="space-y-6 pb-20">
         <div className="md:hidden pt-2 mb-2 flex justify-between items-center"><div><p className="text-xs text-gray-500 font-medium">Welcome,</p><h2 className="text-xl font-bold text-gray-900">{currentUser?.name || "Teacher"} 👋</h2></div><div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold border-2 border-white shadow-sm">{currentUser?.name ? currentUser.name.charAt(0) : "T"}</div></div>
         <TeacherTabs />
-        {currentView === 'dashboard' && (
+        {teacherView === 'dashboard' && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100"><div className="flex items-center justify-between mb-4"><div className="p-3 bg-blue-50 text-blue-600 rounded-lg"><BookOpen className="w-6 h-6" /></div></div><p className="text-gray-500 text-sm font-medium">Total Courses</p><p className="text-3xl font-bold text-gray-900">{myCourses.length}</p></div>
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100"><div className="flex items-center justify-between mb-4"><div className="p-3 bg-emerald-50 text-emerald-600 rounded-lg"><Users className="w-6 h-6" /></div></div><p className="text-gray-500 text-sm font-medium">Active Leads</p><p className="text-3xl font-bold text-emerald-600">{myLeads.length}</p></div>
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 col-span-2 md:col-span-1"><div className="flex items-center justify-between mb-4"><div className="p-3 bg-amber-50 text-amber-600 rounded-lg"><Clock className="w-6 h-6" /></div></div><p className="text-gray-500 text-sm font-medium">Pending Approval</p><p className="text-3xl font-bold text-amber-500">{myCourses.filter(c => c.status === 'Pending').length}</p></div>
             </div>
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"><h3 className="text-lg font-bold text-gray-900 mb-4">Recent Activity</h3><div className="space-y-4">{myLeads.slice(0, 3).map(lead => (<div key={lead.id} className="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors"><div className="bg-blue-100 text-blue-600 p-2 rounded-full shrink-0"><MessageSquare className="w-4 h-4" /></div><div><p className="text-sm font-medium text-gray-900">New enquiry from <span className="font-bold">{lead.studentName}</span></p><p className="text-xs text-gray-500 mt-0.5">For {lead.courseTitle} • {lead.date}</p></div></div>))}</div><button onClick={() => setView('enquiries')} className="mt-4 w-full py-2 text-sm text-blue-600 font-medium hover:bg-blue-50 rounded-lg transition-colors">View All Activity</button></div>
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"><h3 className="text-lg font-bold text-gray-900 mb-4">Recent Activity</h3><div className="space-y-4">{myLeads.slice(0, 3).map(lead => (<div key={lead.id} className="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors"><div className="bg-blue-100 text-blue-600 p-2 rounded-full shrink-0"><MessageSquare className="w-4 h-4" /></div><div><p className="text-sm font-medium text-gray-900">New enquiry from <span className="font-bold">{lead.studentName}</span></p><p className="text-xs text-gray-500 mt-0.5">For {lead.courseTitle} • {lead.date}</p></div></div>))}</div><button onClick={() => setTeacherView('enquiries')} className="mt-4 w-full py-2 text-sm text-blue-600 font-medium hover:bg-blue-50 rounded-lg transition-colors">View All Activity</button></div>
           </div>
         )}
-        {currentView === 'courses' && (
+        {teacherView === 'courses' && (
            <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"><h2 className="text-xl font-bold text-gray-900">My Courses</h2><button onClick={() => { setModalType('createCourse'); setIsModalOpen(true); }} className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-md"><Plus className="w-4 h-4" /> <span>Add New Course</span></button></div>
             <div className="block sm:hidden space-y-4">
@@ -2067,30 +1151,17 @@ export default function App() {
             </div>
           </div>
         )}
-        {currentView === 'enquiries' && (
+        {teacherView === 'enquiries' && (
           <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
             <h2 className="text-xl font-bold text-gray-900">Student Enquiries</h2>
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">{myLeads.length > 0 ? (<div className="divide-y divide-gray-100">{myLeads.map(lead => (<div key={lead.id} className="p-6 hover:bg-gray-50 transition-colors"><div className="flex flex-col md:flex-row gap-4"><div className="md:w-1/4"><div className="flex items-center gap-3 mb-2"><div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 font-bold">{lead.studentName.charAt(0)}</div><div><h4 className="font-bold text-gray-900">{lead.studentName}</h4><p className="text-xs text-gray-500">{lead.date}</p></div></div><div className="space-y-1 text-sm text-gray-600"><div className="flex items-center gap-2"><Mail className="w-3 h-3" /> {lead.email}</div><div className="flex items-center gap-2"><Phone className="w-3 h-3" /> {lead.phone || "Not provided"}</div></div></div><div className="flex-grow border-t md:border-t-0 md:border-l border-gray-100 pt-4 md:pt-0 md:pl-6"><div className="flex justify-between items-start mb-2"><span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">Re: {lead.courseTitle}</span><StatusBadge status={lead.status || 'New'} /></div><p className="text-gray-700 italic bg-gray-50 p-4 rounded-lg border border-gray-100 mb-3">"{lead.message}"</p><div className="flex gap-3 justify-end"><button className="flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-100"><Trash2 className="w-4 h-4" /> Dismiss</button><a href={`mailto:${lead.email}`} className="flex items-center gap-1 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 px-4 py-1.5 rounded-lg shadow-sm"><Mail className="w-4 h-4" /> Reply via Email</a></div></div></div></div>))}</div>) : (<div className="p-12 text-center text-gray-400"><MessageSquare className="w-12 h-12 mx-auto mb-3 opacity-20" /><p>No enquiries yet. Share your course to get started!</p></div>)}</div>
           </div>
-        )}
-        {currentView === 'profile' && (
-            <ProfileSettings user={currentUser} onSave={handleUpdateProfile} onLogout={handleLogout} />
-        )}
-        {currentView === 'support' && (
-             <div className="animate-in fade-in">
-                 <h2 className="text-xl font-bold text-gray-900 mb-4">Tutor Support</h2>
-                 <div className="bg-white p-8 rounded-2xl border border-gray-200">
-                     <p className="mb-4">Need help managing your courses or students? Contact our tutor success team.</p>
-                     <button className="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-blue-700 transition-colors">Contact Support</button>
-                 </div>
-            </div>
         )}
       </div>
     );
   };
 
   const AdminView = () => {
-    // ... (Keep existing AdminView)
     const [adminView, setAdminView] = useState('dashboard');
     const pendingCourses = courses.filter(c => c.status === 'Pending');
 
@@ -2118,6 +1189,8 @@ export default function App() {
     
     return (
       <div className="space-y-6 pb-20">
+        
+        {/* --- Added Mobile Header for Admin --- */}
         <div className="md:hidden pt-2 mb-2 flex justify-between items-center">
              <div>
                 <p className="text-xs text-gray-500 font-medium">Welcome,</p>
@@ -2127,6 +1200,7 @@ export default function App() {
                 A
              </div>
         </div>
+
         <AdminTabs />
 
         {/* --- DASHBOARD VIEW --- */}
@@ -2276,8 +1350,7 @@ export default function App() {
             </div>
           </div>
         )}
-        
-        {/* ... (Keep other admin views) ... */}
+
         {/* --- ALL COURSES VIEW --- */}
         {adminView === 'courses' && (
            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -2360,7 +1433,6 @@ export default function App() {
   };
 
   const Modal = () => {
-    // ... (Keep existing modal logic)
     if (!isModalOpen) return null;
     
     // Create Course Form
@@ -2502,12 +1574,13 @@ export default function App() {
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
       <style>{inlineCss}</style>
       
-      {/* Navigation */}
+      {/* Navigation - Hidden on Mobile ONLY if user is a Learner (who has bottom nav) */}
       <nav className={`bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-40 transition-all duration-300 ${activeRole === 'learner' ? 'hidden md:block' : 'block'}`}>
         <div className="max-w-6xl mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => { setActiveRole('learner'); setLearnerView('home'); setIsLoggedIn(false); }}>
-              <img src="tutorz_logo_bg.png" alt="Brand Logo" className="h-11 rounded-md object-contain" />
+              {/* Replaced Text Logo with Image Logo Placeholder */}
+              <img src="tutorz_logo_bg.png" alt="Brand Logo" className="h-10 rounded-md object-contain" />
             </div>
 
             {/* Desktop Nav */}
@@ -2515,17 +1588,15 @@ export default function App() {
               {activeRole === 'learner' && (
                   <>
                     <button onClick={() => { setLearnerView('browse'); setSelectedCategory('All'); }} className={`transition-colors ${learnerView === 'browse' ? 'text-orange-600 font-bold' : 'hover:text-orange-600'}`}>Browse Courses</button>
-                    <button onClick={() => setLearnerView('pricing')} className={`transition-colors ${learnerView === 'pricing' ? 'text-orange-600 font-bold' : 'hover:text-orange-600'}`}>Plans & Pricing</button>
-                    <button onClick={() => { setLearnerView('findTutors'); setActiveRole('learner'); setIsMobileMenuOpen(false); }} className={`transition-colors ${learnerView === 'findTutors' ? 'text-orange-600 font-bold' : 'hover:text-orange-600'}`}>Find Tutors</button>
                     <button onClick={() => { if (!isLoggedIn) { alert("Please login to view your cart."); setActiveRole('login'); } else { setLearnerView('cart'); } }} className={`flex items-center gap-1 transition-colors ${learnerView === 'cart' ? 'text-orange-600 font-bold' : 'hover:text-orange-600'}`}>
                         Cart {cart.length > 0 && <span className="bg-orange-600 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">{cart.length}</span>}
                     </button>
+                    <a href="#" className="hover:text-orange-600 transition-colors">Find Tutors</a>
+                    <a href="#" className="hover:text-orange-600 transition-colors">About Us</a>
                     {!isLoggedIn && (<button onClick={() => setActiveRole('login')} className="ml-2 flex items-center gap-2 bg-gray-900 text-white px-5 py-2.5 rounded-full hover:bg-gray-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"><LogIn className="w-4 h-4" /> Login</button>)}
                   </>
               )}
-              {isLoggedIn && (
-                   <ProfileDropdown user={currentUser} onLogout={handleLogout} onNavigate={handleProfileNavigation} />
-              )}
+              {isLoggedIn && (<div className="flex items-center gap-4"><div className="flex items-center gap-2 text-xs bg-gray-100 px-3 py-1.5 rounded-full border border-gray-200"><div className={`w-2 h-2 rounded-full ${currentUser?.role === 'admin' ? 'bg-purple-500' : currentUser?.role === 'teacher' ? 'bg-orange-500' : 'bg-blue-500'}`} /><span className="font-semibold text-gray-700">{currentUser?.name}</span><span className="text-gray-400">|</span><span className="uppercase text-gray-500 text-[10px] tracking-wide">{currentUser?.role}</span></div><button onClick={handleLogout} className="text-gray-500 hover:text-red-600 transition-colors" title="Logout"><LogOut className="w-5 h-5" /></button></div>)}
             </div>
             
             <div className="md:hidden"><button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-gray-600">{isMobileMenuOpen ? <X /> : <Menu />}</button></div>
@@ -2538,32 +1609,14 @@ export default function App() {
                {!isLoggedIn ? (
                  <>
                    <button onClick={() => { setLearnerView('browse'); setActiveRole('learner'); setIsMobileMenuOpen(false); }} className="block w-full text-left py-2 text-orange-600 font-medium">Browse Courses</button>
-                   <button onClick={() => { setLearnerView('pricing'); setActiveRole('learner'); setIsMobileMenuOpen(false); }} className="block w-full text-left py-2 text-gray-600 hover:text-orange-600 font-medium">Plans & Pricing</button>
-                   <button onClick={() => { setLearnerView('findTutors'); setActiveRole('learner'); setIsMobileMenuOpen(false); }} className="block w-full text-left py-2 text-gray-600 hover:text-orange-600 font-medium">Find Tutors</button>
                    <button onClick={() => { if (!isLoggedIn) { alert("Please login to view your cart."); setActiveRole('login'); } else { setLearnerView('cart'); } setIsMobileMenuOpen(false); }} className="block w-full text-left py-2 text-gray-600 font-medium flex items-center gap-2">Cart {cart.length > 0 && <span className="bg-orange-600 text-white text-[10px] px-1.5 py-0.5 rounded-full">{cart.length}</span>}</button>
+                   <a href="#" className="block py-2 text-gray-600">Find Tutors</a>
                    <button onClick={() => { setActiveRole('login'); setIsMobileMenuOpen(false); }} className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white px-4 py-3 rounded-lg mt-2"><LogIn className="w-4 h-4" /> Login</button>
                  </>
                ) : (
                  <div className="space-y-4">
-                    <div className="flex items-center gap-3 py-2 border-b border-gray-50"><div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold ${currentUser?.role === 'admin' ? 'bg-purple-500' : currentUser?.role === 'tutor' ? 'bg-orange-500' : 'bg-blue-500'}`}>{currentUser?.name.charAt(0)}</div><div><p className="font-bold text-gray-900">{currentUser?.name}</p><p className="text-xs text-gray-500 uppercase">{currentUser?.role}</p></div></div>
-                    {/* Mobile Menu for Learner */}
-                    {currentUser?.role === 'learner' && (
-                        <>
-                            <button onClick={() => { setLearnerView('profile'); setIsMobileMenuOpen(false); }} className="w-full text-left py-2 text-gray-600 hover:text-orange-600">Profile Detail</button>
-                            <button onClick={() => { setLearnerView('my-learnings'); setIsMobileMenuOpen(false); }} className="w-full text-left py-2 text-gray-600 hover:text-orange-600">My Learnings</button>
-                            <button onClick={() => { setLearnerView('wishlist'); setIsMobileMenuOpen(false); }} className="w-full text-left py-2 text-gray-600 hover:text-orange-600">Wishlist</button>
-                             <button onClick={() => { setLearnerView('support'); setIsMobileMenuOpen(false); }} className="w-full text-left py-2 text-gray-600 hover:text-orange-600">Support</button>
-                        </>
-                    )}
-                    {/* Mobile Menu for Tutor */}
-                    {currentUser?.role === 'tutor' && (
-                        <>
-                             <button onClick={() => { setTeacherView('profile'); setIsMobileMenuOpen(false); }} className="w-full text-left py-2 text-gray-600 hover:text-orange-600">Profile Detail</button>
-                             <button onClick={() => { setTeacherView('courses'); setIsMobileMenuOpen(false); }} className="w-full text-left py-2 text-gray-600 hover:text-orange-600">Course List</button>
-                             <button onClick={() => { setTeacherView('support'); setIsMobileMenuOpen(false); }} className="w-full text-left py-2 text-gray-600 hover:text-orange-600">Support</button>
-                        </>
-                    )}
-
+                    <div className="flex items-center gap-3 py-2 border-b border-gray-50"><div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold ${currentUser?.role === 'admin' ? 'bg-purple-500' : currentUser?.role === 'teacher' ? 'bg-orange-500' : 'bg-blue-500'}`}>{currentUser?.name.charAt(0)}</div><div><p className="font-bold text-gray-900">{currentUser?.name}</p><p className="text-xs text-gray-500 uppercase">{currentUser?.role}</p></div></div>
+                    {currentUser?.role === 'teacher' && (<div className="space-y-2"><button onClick={() => { setIsMobileMenuOpen(false); }} className="w-full text-left py-2 text-gray-600 hover:text-orange-600">Dashboard</button><button onClick={() => { setIsMobileMenuOpen(false); }} className="w-full text-left py-2 text-gray-600 hover:text-orange-600">My Courses</button></div>)}
                     <button onClick={handleLogout} className="flex items-center gap-2 text-red-600 font-medium w-full py-2"><LogOut className="w-4 h-4" /> Logout</button>
                  </div>
                )}
@@ -2575,7 +1628,7 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-8">
         {activeRole === 'learner' && <LearnerView />}
         {activeRole === 'login' && <LoginView />}
-        {activeRole === 'tutor' && <TutorView currentView={teacherView} setView={setTeacherView} />}
+        {activeRole === 'teacher' && <TeacherView />}
         {activeRole === 'admin' && <AdminView />}
       </main>
 
